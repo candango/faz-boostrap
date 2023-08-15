@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "../../item";
+import { FazElementItem } from "faz/src/item";
 import { render } from "solid-js/web";
 
  

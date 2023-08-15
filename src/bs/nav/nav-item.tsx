@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "../../item";
+import { FazElementItem } from "faz/src/item";
 import FazBsNavElement from "./nav";
 import { Accessor, createSignal, Setter } from "solid-js";
 import { render } from "solid-js/web";

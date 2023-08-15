@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "../../item"
+import { FazElementItem } from "faz/src/item"
 import { render } from "solid-js/web"
 
 
 export default class FazBsNavItemContentElement extends FazElementItem {
     constructor() {
-        super()
+        super();
     }
 
     show() {
-        render(() => <span></span>, this) 
+        render(() => <span></span>, this);
     }
 }

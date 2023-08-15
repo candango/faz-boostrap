@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "../../item";
+import { FazElementItem } from "faz/src/item";
 import { FazBsCollapse } from "../collapse/collapse";
 import FazBsNavItemElement from "./nav-item";
 import FazBsNavItemContentElement from "./nav-item-content";
