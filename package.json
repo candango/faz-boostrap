@@ -46,7 +46,7 @@
         "prettier": "3.1.0",
         "qunit": "2.17.2",
         "ts-loader": "9.5.0",
-        "typescript": "5.1.6"
+        "typescript": "5.2.2"
     },
     "scripts": {
         "watch": "node watch.mjs",
