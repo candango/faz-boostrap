@@ -50,7 +50,7 @@
     },
     "scripts": {
         "watch": "node watch.mjs",
-        "showcase": "http-server & npm run watch",
+        "showcase": "http-server showcase & npm run watch",
         "esbuild": "node build.mjs",
         "build": "npm run build:clean && npm run lessc && npm run esbuild",
         "build:prod": "npm run build:clean && webpack --config webpack.config.prod.js && npm run lessc",
