@@ -50,7 +50,6 @@
     },
     "scripts": {
         "watch": "node watch.mjs",
-        "showcase": "http-server showcase & npm run watch",
         "esbuild": "node build.mjs",
         "build": "npm run build:clean && npm run lessc && npm run esbuild",
         "build:prod": "npm run build:clean && webpack --config webpack.config.prod.js && npm run lessc",
@@ -69,5 +68,5 @@
         "yarn:clean": "rm -rf yarn.lock .yarn .yarnrc.yml .next node_modules",
         "yarn:v2": "yarn set version berry && yarn config set nodeLinker node-modules"
     },
-    "packageManager": "yarn@3.6.1"
+    "packageManager": "yarn@4.0.2"
 }

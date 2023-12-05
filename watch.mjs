@@ -28,9 +28,9 @@ let ctx = await esbuild.context({
     treeShaking: true,
     sourcemap: true,
     logLevel: "info",
-    outdir: "dist",
+    outdir: "showcase/dist",
     legalComments: "none",
-    allowOverwrite: true,
+    allowOverwrite: false,
     plugins:[
         copy(assets),
         solidPlugin()
@@ -38,3 +38,15 @@ let ctx = await esbuild.context({
 });
 
 await ctx.watch();
+
+await ctx.serve({
+    port: 8080,
+    servedir: "showcase",
+    onRequest: (args) => {
+        let logMessage = "";
+        for (let key in args) {
+            logMessage += key + ": " + args[key] + " ";
+        }
+        console.log(logMessage);
+    }
+})
