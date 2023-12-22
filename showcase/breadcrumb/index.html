@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Candango Faz Toolkit - Breadcrumbs</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/dist/vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/dist/css/faz.css" rel="stylesheet"/>
+    <link href="/dist/css/showcase.css" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+</head>
+
+<body>
+<main-navbar></main-navbar>
+
+<main role="main" class="container">
+    <faz-bs-breadcrumb faz-id="mainBreadcrumb">
+        <faz-bs-breadcrumb-item id="toHomeBreadCrumbItem" href="/">Home</faz-bs-breadcrumb-item>
+        <faz-bs-breadcrumb-item id="currenBreadCrumbItem">Breadcrumb</faz-bs-breadcrumb-item>
+    </faz-bs-breadcrumb>
+    <h1>Breadcrumbs</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">A breadcrumb</h2>
+            <p class="card-text">This is just a breadcrumb example.</p>
+            <div id="breadcrumbExample"><faz-bs-breadcrumb faz-id="aBreadcrumb">
+    <faz-bs-breadcrumb-item href="#root">Root</faz-bs-breadcrumb-item>
+    <faz-bs-breadcrumb-item href="#buga">First Level</faz-bs-breadcrumb-item>
+    <faz-bs-breadcrumb-item>Edge</faz-bs-breadcrumb-item>
+</faz-bs-breadcrumb></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">A breadcrumb</h2>
+            <p class="card-text">A breadcrumb example with link on edge</p>
+            <div id="breadcrumbEdgeLinkExample"><faz-bs-breadcrumb faz-id="aBreadcrumbEdgeLink">
+    <faz-bs-breadcrumb-item href="#root">Root</faz-bs-breadcrumb-item>
+    <faz-bs-breadcrumb-item href="#buga">First Level</faz-bs-breadcrumb-item>
+    <faz-bs-breadcrumb-item href="#last">Edge</faz-bs-breadcrumb-item>
+</faz-bs-breadcrumb></div>
+        </div>
+    </div>
+    <br>
+    <br>
+</main><!-- /.container -->
+
+<script src="/dist/global.bundle.js" ></script>
+<script>
+    codemirrorit("breadcrumbExample");
+    codemirrorit("breadcrumbEdgeLinkExample");
+</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/dist/vendor/jquery.min.js"></script>
+<script src="/dist/vendor/popper.min.js"></script>
+<script src="/dist/vendor/bootstrap.min.js"></script>
+<script src="/dist/breadcrumb-solid.bundle.js"></script>
+
+</body>
+</html>
