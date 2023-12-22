@@ -15,3 +15,4 @@
  */
 
 import "../bs/alert/alert";
+import "../bs/breadcrumb/breadcrumb";

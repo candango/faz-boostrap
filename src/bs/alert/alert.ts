@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +15,38 @@
  */
 
 import { FazBsElementItem } from "../../bs-item";
-import { render } from "solid-js/web";
 
 
 export class FazBsAlert extends FazBsElementItem {
 
+    public divAlert: HTMLDivElement;
+
+    constructor() {
+        super();
+        this.divAlert = document.createElement("div");
+    }
+
     get classNames() {
         let classes = ["alert"];
-        if (this.kind()) {
-            classes.push(`alert-${this.kind()}`);
+        if (this.kind) {
+            classes.push(`alert-${this.kind}`);
         }
         if (this.extraClasses) {
-            classes.push(this.extraClasses());
+            classes.push(this.extraClasses);
         }
-        this.setClasses(classes.join(" "));
-        return this.classes();
+        return classes.join(" ");
+    }
+
+    onKindChange(newValue: string|null, oldValue: string|null): void {
+        this.divAlert?.setAttribute("class", this.classNames); 
     }
 
     show() {
         const role = "alert";
-        render(() => <div id={`faz-bs-alert-${this.id}`}
-            class={this.classNames} role={role}></div>, this);
+        this.appendChild(this.divAlert);
+        this.divAlert.setAttribute("id", `faz-bs-alert-${this.id}`);
+        this.divAlert.setAttribute("class", this.classNames);
+        this.divAlert.setAttribute("role", role);
         this.classList.add("faz-bs-alert-rendered");
     }
 }
