@@ -19,9 +19,9 @@ import { FazElementItem } from "faz";
 
 export class FazBsElementItem extends FazElementItem {
 
-    private _kind: string|null = "primary";
-    private _target: string|null = null;
-    private _theme: string|null = null;
+    private _kind: string | null = "primary";
+    private _target: string | null = null;
+    private _theme: string | null = null;
 
     constructor() {
         super();
@@ -40,45 +40,57 @@ export class FazBsElementItem extends FazElementItem {
         }
     }
 
-    get kind(): string|null {
+    get kind(): string | null {
         return this._kind;
     }
 
-    set kind(value: string|null) {
+    set kind(value: string | null) {
         if (this._kind !== value) {
-            const oldKind = this._kind;
+            const oldValue = this._kind;
             this._kind = value;
-            this.onKindChange(value, oldKind);
+            if (!this.loading) {
+                const e = this.createEvent("kindChanged", value, oldValue);
+                this.dispatchEvent(e);
+                this.onKindChange(e);
+            }
         }
     }
 
-    onKindChange(newValue: string|null, oldValue: string|null) {}
+    onKindChange(e: Event) { }
 
-    get target(): string|null {
+    get target(): string | null {
         return this._target;
     }
 
-    set target(value: string|null) {
+    set target(value: string | null) {
         if (this._target !== value) {
-            const oldTarget = this._target;
+            const oldValue = this._target;
             this._target = value;
-            this.onTargetChange(value, oldTarget);
+            if (!this.loading) {
+                const e = this.createEvent("targetChanged", value, oldValue);
+                this.dispatchEvent(e);
+                this.onTargetChange(e);
+            }
         }
     }
 
-    onTargetChange(newValue: string|null, oldValue: string|null) {}
+    onTargetChange(e: Event) { }
 
-    get theme(): string|null {
+    get theme(): string | null {
         return this._theme;
     }
 
-    set theme(value: string|null) {
+    set theme(value: string | null) {
         if (this._theme !== value) {
-            const oldTheme = this._theme;
+            const oldValue = this._theme;
             this._theme = value;
-            this.onThemeChange(value, oldTheme);
+            if (!this.loading) {
+                const e = this.createEvent("themeChanged", value, oldValue);
+                this.dispatchEvent(e);
+                this.onThemeChange(e);
+            }
         }
     }
 
-    onThemeChange(newValue: string|null, oldValue: string|null) {}
+    onThemeChange(e: Event) { }
 }
