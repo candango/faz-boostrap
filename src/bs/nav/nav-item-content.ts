@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz/src/item"
-import { render } from "solid-js/web"
+import { FazElementItem } from "faz"
 
 
 export default class FazBsNavItemContentElement extends FazElementItem {
@@ -24,6 +23,7 @@ export default class FazBsNavItemContentElement extends FazElementItem {
     }
 
     show() {
-        render(() => <span></span>, this);
+        const contentSpam = document.createElement("spam");
+        this.appendChild(contentSpam);
     }
 }

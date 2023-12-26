@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,48 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz/src/item";
-import { Accessor, createSignal, Setter } from "solid-js";
-import { render } from "solid-js/web";
+import { FazElementItem, toBoolean } from "faz";
 
 
 export default class FazBsNavTabElement extends FazElementItem {
 
-    public fade: Accessor<boolean>;
-    public setFade: Setter<boolean>;
+    private _fade: boolean = false;
+    
+    private navTabContainer: HTMLElement;
 
     constructor() {
         super();
-        [this.fade, this.setFade] = createSignal(false);
+        this.navTabContainer = document.createElement("div");
         for (let attribute of this.attributes) {
             switch (attribute.name) {
                 case "fade":
-                    this.setFade(attribute.value.toLowerCase() === "true");
+                    this._fade = toBoolean(attribute.value);
                     break;
             }
         }
     }
 
+    get fade(): boolean {
+        return this._fade;
+    }
+
+    set fade(value: boolean) {
+        if (this._fade !== value) {
+            const oldValue = this._fade;
+            this._fade = value;
+            if (!this.loading) {
+                const e = this.createEvent("fadeChanged", value, oldValue);
+                this.dispatchEvent(e);
+                this.onFadeChanged(e);
+            }
+        }
+    }
+
+    onFadeChanged(e: Event) {}
+
     get ariaLabelledby() {
         let labelledby = "";
-        this.parent()?.items().forEach((item) => {
+        this.parent?.items.forEach((item) => {
             if (this.id === item.link) {
                 labelledby = item.id;
                 return;
@@ -49,25 +66,25 @@ export default class FazBsNavTabElement extends FazElementItem {
 
     get classNames() {
         let classes = ["tab-pane"];
-        if (this.fade()) {
+        if (this.fade) {
             classes.push("fade");
-            if (this.active()) {
+            if (this.active) {
                 classes.push("show");
             }
         }
-        if (this.active()) {
+        if (this.active) {
             classes.push("anchor");
             classes.push("active");
         }
-
         return classes.join(" ");
     }
 
     show() {
-        console.log(this.parentElement?.parentElement);
-        render(() => <div class={this.classNames}
-            id={`nav_tab_container${this.id}`} role="tabpanel"
-            aria-labelledby={this.ariaLabelledby}>
-        </div>, this);
+        this.navTabContainer.setAttribute("class", this.classNames);
+        this.navTabContainer.setAttribute("id", `nav_tab_container${this.id}`);
+        this.navTabContainer.setAttribute("role", "tabpanel");
+        this.navTabContainer.setAttribute("aria-labelledby",
+            this.ariaLabelledby);
+        this.appendChild(this.navTabContainer);
     }
 }

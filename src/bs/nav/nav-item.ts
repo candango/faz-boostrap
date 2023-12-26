@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,34 +14,59 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz/src/item";
+import { FazElementItem } from "faz";
 import FazBsNavElement from "./nav";
-import { Accessor, createSignal, Setter } from "solid-js";
-import { render } from "solid-js/web";
 
 
 export default class FazBsNavItemElement extends FazElementItem {
 
-    public linkClasses: Accessor<string>;
-    public setLinkClasses: Setter<string>;
+    private _linkClasses: string = "";
+
+    private navItemLi: HTMLLIElement;
+    private navItemLink: HTMLAnchorElement;
+    private navItemUl: HTMLUListElement;
 
     public previousItem: FazBsNavItemElement | undefined;
-
     constructor() {
         super();
-        [this.linkClasses, this.setLinkClasses] = createSignal("");
+        this.navItemLi = document.createElement("li");
+        this.navItemLink = document.createElement("a");
+        this.navItemUl = document.createElement("ul");
+        
+        this.addEventListener("activeChanged", (e) => this.updateClassNames());
+        this.addEventListener("disabledChanged", (e) =>
+            this.updateClassNames());
     }
 
-    get contentChild() {
-        if (this.content() === undefined) {
-            return this.children[0].firstChild;
+    get linkClasses(): string {
+        return this._linkClasses;
+    }
+
+    set linkClasses(value: string) {
+        if (this._linkClasses !== value) {
+            const oldValue = this._linkClasses;
+            this._linkClasses = value;
+            if (!this.loading) {
+                const e = this.createEvent("linkClassesChanged",
+                    value, oldValue);
+                this.dispatchEvent(e);
+                this.onLinkClassesChanged(e);
+            }
         }
-        return this.children[0].children[1];
+    }
+
+    onLinkClassesChanged(e: Event) {}
+
+    get contentChild() {
+        if (this.content === null) {
+            return this.navItemLink;
+        }
+        return this.navItemUl;
     }
 
     get isRoot() {
-        if (this.parent() !== undefined) {
-            if (this.parent() instanceof FazBsNavElement) {
+        if (this.parent !== null) {
+            if (this.parent instanceof FazBsNavElement) {
                 return true;
             }
         }
@@ -49,8 +74,8 @@ export default class FazBsNavItemElement extends FazElementItem {
     }
 
     get isDropdown() {
-        this.loading();
-        return this.items().length > 0;
+        this.loading;
+        return this.items.length > 0;
     }
 
     get classNames() {
@@ -65,23 +90,23 @@ export default class FazBsNavItemElement extends FazElementItem {
                 classes.push("dropdown-submenu");
             }
         }
-        if (this.active()) {
+        if (this.active) {
             classes.push("active");
         }
-        if (this.disabled()) {
+        if (this.disabled) {
             classes.push("disabled");
         }
-        this.setClasses(classes.join(" "));
-        return this.classes();
+        return classes.join(" ");
     }
 
     get link() {
+        const link = super.link;
         if (!this.isDropdown) {
             if (this.isRoot && this.root?.hasTabs) {
                 return `#${super.link}`
             }
         }
-        return super.link;
+        return link;
     }
 
     get linkClassNames() {
@@ -91,25 +116,24 @@ export default class FazBsNavItemElement extends FazElementItem {
             classes.pop();
             classes.push("dropdown-item");
         }
-        if (this.active() && !this.disabled()) {
+        if (this.active && !this.disabled) {
             classes.push("active");
             if (this.root) {
                 this.root.current = this;
             }
         }
-        if (this.disabled()) {
+        if (this.disabled) {
             classes.push("disabled");
         }
         if (this.isDropdown) {
             classes.push("dropdown-toggle");
         }
-        this.setLinkClasses(classes.join(" "));
-        return this.linkClasses();
+        return classes.join(" ");
     }
 
     get dropdownClassNames() {
         let classes = ["dropdown-menu"];
-        if (this.active() && this.isDropdown && !this.disabled()) {
+        if (this.active && this.isDropdown && !this.disabled) {
             classes.push("show");
         }
         return classes.join(" ");
@@ -126,23 +150,23 @@ export default class FazBsNavItemElement extends FazElementItem {
 
     get root(): FazBsNavElement | undefined {
         if (this.isRoot) {
-            return this.parent() as FazBsNavElement;
+            return this.parent as FazBsNavElement;
         }
-        if (!this.parent()) {
+        if (!this.parent) {
             return undefined;
         }
-        return (this.parent() as FazBsNavItemElement).root;
+        return (this.parent as FazBsNavItemElement).root;
     }
 
     get navItemItems() {
-        return this.items().filter(item => {
+        return this.items.filter(item => {
             return item instanceof FazBsNavItemElement;
         });
     }
 
     get ariaExpandedValue() {
         if (this.isDropdown) {
-            return this.active();
+            return this.active;
         }
     }
 
@@ -154,7 +178,7 @@ export default class FazBsNavItemElement extends FazElementItem {
 
     addChild<T extends Node>(node: T): T {
         if (node instanceof FazBsNavItemElement) {
-            this.children[0].children[1].appendChild(node);
+            this.navItemUl.appendChild(node);
             return node;
         }
         this.contentChild?.appendChild(node);
@@ -163,7 +187,7 @@ export default class FazBsNavItemElement extends FazElementItem {
 
     deactivate() {
         this.previousItem = undefined;
-        this.setActive(false);
+        this.active = false;
         if (this.isDropdown) {
             this.activeItems.forEach(activeItem => {
                 if (activeItem instanceof FazBsNavItemElement) {
@@ -175,20 +199,20 @@ export default class FazBsNavItemElement extends FazElementItem {
     }
 
     activate() {
-        this.parent()?.activeItems.forEach(item => {
+        this.parent?.activeItems.forEach(item => {
             if (item instanceof FazBsNavItemElement) {
                 this.previousItem = item;
                 (item as FazBsNavItemElement).deactivate();
             }
         });
-        this.setActive(true);
+        this.active = true;
         if (this.root?.hasTabs) {
             this.root?.tabItems.forEach((item) => {
                 if(item.id === this.link.replace("#", "")){
-                    item.setActive(true);
+                    item.active = true;
                     return;
                 }
-                item.setActive(false);
+                item.active = false;
             });
         }
     }
@@ -200,8 +224,15 @@ export default class FazBsNavItemElement extends FazElementItem {
         this.activate();
     }
 
-    renderDropdown() {
-        return <ul class={this.dropdownClassNames}></ul>;
+    renderDropdown(element: HTMLElement) {
+        this.navItemUl.className = this.dropdownClassNames;
+        element.appendChild(this.navItemUl);
+    }
+
+    updateClassNames() {
+        this.navItemLi.className = this.classNames
+        this.navItemLink.className = this.linkClassNames;
+        this.navItemUl.className = this.dropdownClassNames;
     }
 
     show() {
@@ -214,17 +245,40 @@ export default class FazBsNavItemElement extends FazElementItem {
             //     >{this.content}</a>
             //     {this.isDropdown ? this.renderItems() : ""}
             // </li>
-        const navItem = <li id={`nav_item_container${this.id}`} 
-            class={this.classNames}>
-                <a id={`nav_item_link${this.id}`} class={this.linkClassNames} 
-                    role={this.roleType} href={this.link}
-                    onClick={(e) => this.itemClick(e)}
-                    aria-expaded={this.ariaExpandedValue}
-                    data-bs-toggle={this.dataBsToggleValue}>{this.content()} 
-                </a>
-                {this.isDropdown ? this.renderDropdown() : ""}
-            </li>;
-            
-        render(() => navItem, this);
+        this.navItemLi.id = `nav_item_container${this.id}`;
+        this.navItemLi.className = this.classNames;
+        this.navItemLink.id = `nav_item_link${this.id}`;
+        this.navItemLink.className = this.linkClassNames;
+        if (this.roleType) {
+            this.navItemLink.setAttribute("role", this.roleType);
+        }
+        this.navItemLink.setAttribute("href", this.link);
+        this.navItemLink.onclick = (e) => this.itemClick(e);
+        this.navItemLink.setAttribute("aria-expanded",
+            this.ariaExpandedValue ? "true" : "false");
+        this.navItemLink.setAttribute("data-bs-toggle",
+            this.dataBsToggleValue ? "true" : "");
+        if (this.content !== null) {
+            this.navItemLink.innerHTML = this.content;
+        }
+        this.navItemLi.appendChild(this.navItemLink);
+        if (this.isDropdown) {
+            this.renderDropdown(this.navItemLi);
+        }
+        if (this.isRoot) {
+            this.root?.contentChild?.appendChild(this.navItemLi);
+            return;
+        }
+        this.appendChild(this.navItemLi);
+        // const navItem = <li id={`nav_item_container${this.id}`} 
+        //     class={this.classNames}>
+        //         <a id={`nav_item_link${this.id}`} class={this.linkClassNames} 
+        //             role={this.roleType} href={this.link}
+        //             onClick={(e) => this.itemClick(e)}
+        //             aria-expaded={this.ariaExpandedValue}
+        //             data-bs-toggle={this.dataBsToggleValue}>{this.content()} 
+        //         </a>
+        //         {this.isDropdown ? this.renderDropdown() : ""}
+        //     </li>;
     }
 }
