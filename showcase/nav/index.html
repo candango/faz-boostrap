@@ -20,7 +20,10 @@
 <main-navbar></main-navbar>
 
 <main role="main" class="container">
-
+    <!-- <faz-bs-breadcrumb faz-id="mainBreadcrumb"> -->
+    <!--     <faz-bs-breadcrumb-item id="toHomeBreadCrumbItem" href="/">Home</faz-bs-breadcrumb-item> -->
+    <!--     <faz-bs-breadcrumb-item id="currenBreadCrumbItem">Nav</faz-bs-breadcrumb-item> -->
+    <!-- </faz-bs-breadcrumb> -->
     <h1>Navs</h1>
     <div class="card">
         <div class="card-body">
@@ -73,7 +76,6 @@
         </div>
     </div>
     <br><br>
-
     <br><br>
     <h2>Vertical alignment</h2>
     <div class="card">
@@ -102,8 +104,6 @@
         </div>
     </div>
     <br><br>
-    <br>
-    <br>
     <h2>With children, justified to the right</h2>
     <div class="card">
         <div class="card-body">
@@ -138,16 +138,70 @@
         <div class="card-body">
             <h5 class="card-title">Horizontal.</h5>
             <div id="navSourceWithTab1Example"><faz-bs-nav active="item1" justify="right">
-    <faz-bs-nav-item fazid="item1-buga" href="item1-content">Item 1</faz-bs-nav-item>
-    <faz-bs-nav-item fazid="item2-buga" href="item2-content">Item 2</faz-bs-nav-item>
-    <faz-bs-nav-item fazid="disabled222" disabled="true">Disabled</faz-bs-nav-item>
+    <faz-bs-nav-item faz-id="item1-buga" href="item1-content">Item 1</faz-bs-nav-item>
+    <faz-bs-nav-item faz-id="item2-buga" href="item2-content">Item 2</faz-bs-nav-item>
+    <faz-bs-nav-item faz-id="disabled222" disabled="true">Disabled</faz-bs-nav-item>
 
-    <faz-bs-nav-tab fazid="item1-content" fade="true">
-        Item 1 content
+    <faz-bs-nav-tab faz-id="item1-content" fade="true">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
     </faz-bs-nav-tab>
 
     <faz-bs-nav-tab fazid="item2-content" fade="true">
-        Item 2 content
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+    </tr>
+  </tbody>
+</table>
     </faz-bs-nav-tab>
 </faz-bs-nav></div>
         </div>
@@ -181,14 +235,14 @@
 
 <script src="/dist/global.bundle.js" ></script>
 <script>
-    codemirrorit("navBasicExample");
-    codemirrorit("navCenteredExample");
-    codemirrorit("navRightExample");
-    codemirrorit("navPillsFillExample");
-    codemirrorit("navJustVerticalExample");
-    codemirrorit("navVerticalPillsExample");
-    codemirrorit("navWithChildrenRightExample");
-    codemirrorit("navSourceWithTab1Example");
+    // codemirrorit("navBasicExample");
+    // codemirrorit("navCenteredExample");
+    // codemirrorit("navRightExample");
+    // codemirrorit("navPillsFillExample");
+    // codemirrorit("navJustVerticalExample");
+    // codemirrorit("navVerticalPillsExample");
+    // codemirrorit("navWithChildrenRightExample");
+    // codemirrorit("navSourceWithTab1Example");
 </script>
 
 <!-- Bootstrap core JavaScript
