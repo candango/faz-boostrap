@@ -18,7 +18,6 @@ import * as esbuild from "esbuild";
 import { assets } from "./assets.mjs";
 import { entryPoints } from "./entryPoints.mjs";
 import { copy } from "esbuild-plugin-copy";
-import { solidPlugin } from "esbuild-plugin-solid";
 
 let ctx = await esbuild.context({
     entryPoints: entryPoints,
@@ -32,8 +31,7 @@ let ctx = await esbuild.context({
     legalComments: "none",
     allowOverwrite: false,
     plugins:[
-        copy(assets),
-        solidPlugin()
+        copy(assets)
     ]
 });
 

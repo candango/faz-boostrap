@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flávio Gonçalves Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 export const entryPoints =  [
     { out: "alert-solid.bundle", in: "src/app/alert.ts" },
     { out: "breadcrumb-solid.bundle", in: "src/app/breadcrumb.ts" },
-    { out: "nav-solid.bundle", in: "src/app/nav.tsx" },
+    { out: "nav-solid.bundle", in: "src/app/nav.ts" },
     { out: "navbar-solid.bundle", in: "src/app/navbar.tsx" },
     { out: "global.bundle", in: "src/app/global.ts" },
 

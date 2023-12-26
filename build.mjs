@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ import * as esbuild from "esbuild";
 import { assets } from "./assets.mjs";
 import {entryPoints} from "./entryPoints.mjs";
 import { copy } from "esbuild-plugin-copy";
-import { solidPlugin } from "esbuild-plugin-solid";
 
 await esbuild.build({
     entryPoints: entryPoints,
@@ -32,7 +31,6 @@ await esbuild.build({
     legalComments: "none",
     allowOverwrite: true,
     plugins:[
-        copy(assets),
-        solidPlugin()
+        copy(assets)
     ]
 }).catch(() => process.exit(1));
