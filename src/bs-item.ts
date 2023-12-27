@@ -28,13 +28,13 @@ export class FazBsElementItem extends FazElementItem {
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "kind":
-                    this.kind = attribute.value.toLowerCase();
+                    this._kind = attribute.value.toLowerCase();
                     break;
                 case "target":
-                    this.target = attribute.value;
+                    this._target = attribute.value;
                     break;
                 case "theme":
-                    this.theme = attribute.value;
+                    this._theme = attribute.value;
                     break;
             }
         }
@@ -49,7 +49,7 @@ export class FazBsElementItem extends FazElementItem {
             const oldValue = this._kind;
             this._kind = value;
             if (!this.loading) {
-                const e = this.createEvent("kindChanged", value, oldValue);
+                const e = this.createEvent("kindchange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onKindChange(e);
             }
@@ -67,7 +67,7 @@ export class FazBsElementItem extends FazElementItem {
             const oldValue = this._target;
             this._target = value;
             if (!this.loading) {
-                const e = this.createEvent("targetChanged", value, oldValue);
+                const e = this.createEvent("targetchange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onTargetChange(e);
             }
@@ -85,7 +85,7 @@ export class FazBsElementItem extends FazElementItem {
             const oldValue = this._theme;
             this._theme = value;
             if (!this.loading) {
-                const e = this.createEvent("themeChanged", value, oldValue);
+                const e = this.createEvent("themechange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onThemeChange(e);
             }

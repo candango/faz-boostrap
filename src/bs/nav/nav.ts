@@ -32,8 +32,6 @@ export default class FazBsNavElement extends FazElementItem {
    
     private navContainer: HTMLDivElement;
     private navUl: HTMLUListElement;
-    private tabLeftContainer: HTMLDivElement;
-    private tabRightContainer: HTMLDivElement;
     private tabContainer: HTMLDivElement;
 
     public current: FazBsNavItemElement | undefined;
@@ -44,23 +42,21 @@ export default class FazBsNavElement extends FazElementItem {
         super();
         this.navContainer = document.createElement("div");
         this.navUl = document.createElement("ul");
-        this.tabLeftContainer = document.createElement("div");
-        this.tabRightContainer = document.createElement("div");
         this.tabContainer = document.createElement("div");
 
         for (let attribute of this.attributes) {
             switch (attribute.name) {
                 case "fill":
-                    this.fill = toBoolean(attribute.value);
+                    this._fill = toBoolean(attribute.value);
                     break;
                 case "justify":
-                    this.justify = attribute.value;
+                    this._justify = attribute.value;
                     break;
                 case "pills":
-                    this.pills = toBoolean(attribute.value);
+                    this._pills = toBoolean(attribute.value);
                     break;
                 case "vertical":
-                    this.vertical = toBoolean(attribute.value);
+                    this._vertical = toBoolean(attribute.value);
                     break;
             }
         }
@@ -77,7 +73,7 @@ export default class FazBsNavElement extends FazElementItem {
             const oldValue = this._fill;
             this._fill = value;
             if (!this.loading) {
-                const e = this.createEvent("fillChanged", value, oldValue);
+                const e = this.createEvent("fillchange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onFillChange(e);
             }
@@ -95,7 +91,7 @@ export default class FazBsNavElement extends FazElementItem {
             const oldValue = this._justify;
             this._justify = value;
             if (!this.loading) {
-                const e = this.createEvent("justifyChanged", value, oldValue);
+                const e = this.createEvent("justifychange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onJustifyChange(e);
             }
@@ -113,7 +109,7 @@ export default class FazBsNavElement extends FazElementItem {
             const oldValue = this._pills;
             this._pills = value;
             if (!this.loading) {
-                const e = this.createEvent("pillsChanged", value, oldValue);
+                const e = this.createEvent("pillschange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onPillsChange(e);
             }
@@ -131,7 +127,7 @@ export default class FazBsNavElement extends FazElementItem {
             const oldValue = this._vertical;
             this._vertical = value;
             if (!this.loading) {
-                const e = this.createEvent("verticalChanged", value, oldValue);
+                const e = this.createEvent("verticalchange", value, oldValue);
                 this.dispatchEvent(e);
                 this.onVerticalChange(e);
             }
@@ -151,6 +147,10 @@ export default class FazBsNavElement extends FazElementItem {
 
     get contentChild() {
         return this.navUl;
+    }
+
+    get tabContentChild() {
+        return this.tabContainer;
     }
 
     get classNames() {
@@ -227,14 +227,14 @@ export default class FazBsNavElement extends FazElementItem {
     addChild<T extends Node>(node: T): T {
         if (this.hasTabs && this.vertical) {
             if (node instanceof FazBsNavTabElement) {
-                this.children[0].children[1].firstChild?.appendChild(node);
+                this.tabContainer.appendChild(node);
                 return node;
             }
             this.children[0].children[0].firstChild?.appendChild(node);
             return node;
         }
         if (node instanceof FazBsNavTabElement) {
-            this.children[0].children[1].appendChild(node);
+            this.tabContainer.appendChild(node);
             return node;
         }
         this.contentChild?.appendChild(node);
@@ -266,7 +266,7 @@ export default class FazBsNavElement extends FazElementItem {
 
     renderTabs(element: HTMLElement) {
         this.tabContainer.setAttribute("class", this.tabClassNames);
-        element.appendChild(this.navUl);
+        element.appendChild(this.tabContainer);
     }
 
     show() {
@@ -276,18 +276,17 @@ export default class FazBsNavElement extends FazElementItem {
         this.navContainer.onmouseleave = (e) => this.leaveMe(e);
         this.appendChild(this.navContainer);
         if (this.hasTabs && this.vertical) {
-            this.tabLeftContainer.setAttribute("class", "col-3");
-            this.renderNav(this.tabLeftContainer);
-            this.navContainer.appendChild(this.tabRightContainer);
-            this.tabRightContainer.setAttribute("class", "col-9");
+            this.navContainer.setAttribute("class",
+                                           "d-flex align-items-start");
+            this.renderNav(this.navContainer);
             this.tabContainer.setAttribute("class", "tab-content");
-            this.tabRightContainer.appendChild(this.tabContainer);
-            this.renderTabs(this.tabContainer);
-            this.navContainer.appendChild(this.tabRightContainer);
+            this.renderTabs(this.navContainer);
             return
         }
         this.renderNav(this.navContainer);
-
+        if (this.hasTabs) {
+            this.renderTabs(this);
+        }
         // if (this.hasTabs && this.vertical) {
         //     render(() => <div onMouseOver={(e) => this.beOverMe(e)}
         //         onMouseLeave={(e) => this.leaveMe(e)}

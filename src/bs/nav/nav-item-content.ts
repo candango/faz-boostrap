@@ -18,10 +18,6 @@ import { FazElementItem } from "faz"
 
 
 export default class FazBsNavItemContentElement extends FazElementItem {
-    constructor() {
-        super();
-    }
-
     show() {
         const contentSpam = document.createElement("spam");
         this.appendChild(contentSpam);

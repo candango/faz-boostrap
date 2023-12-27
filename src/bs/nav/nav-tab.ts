@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import FazBsNavElement from "./nav";
 import { FazElementItem, toBoolean } from "faz";
 
 
@@ -33,6 +34,8 @@ export default class FazBsNavTabElement extends FazElementItem {
                     break;
             }
         }
+        this.addEventListener("activechange", (e) => this.updateClassNames());
+        this.addEventListener("fadechange", (e) => this.updateClassNames());
     }
 
     get fade(): boolean {
@@ -44,14 +47,14 @@ export default class FazBsNavTabElement extends FazElementItem {
             const oldValue = this._fade;
             this._fade = value;
             if (!this.loading) {
-                const e = this.createEvent("fadeChanged", value, oldValue);
+                const e = this.createEvent("fadechange", value, oldValue);
                 this.dispatchEvent(e);
-                this.onFadeChanged(e);
+                this.onFadeChange(e);
             }
         }
     }
 
-    onFadeChanged(e: Event) {}
+    onFadeChange(e: Event) {}
 
     get ariaLabelledby() {
         let labelledby = "";
@@ -79,12 +82,21 @@ export default class FazBsNavTabElement extends FazElementItem {
         return classes.join(" ");
     }
 
+    get contentChild() {
+        return this.navTabContainer;
+    }
+
+    updateClassNames() {
+        this.navTabContainer.setAttribute("class", this.classNames);
+    }
+
     show() {
         this.navTabContainer.setAttribute("class", this.classNames);
         this.navTabContainer.setAttribute("id", `nav_tab_container${this.id}`);
         this.navTabContainer.setAttribute("role", "tabpanel");
         this.navTabContainer.setAttribute("aria-labelledby",
             this.ariaLabelledby);
-        this.appendChild(this.navTabContainer);
+        const parent = this.parent as FazBsNavElement;
+        parent?.tabContentChild.appendChild(this.navTabContainer);
     }
 }

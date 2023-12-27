@@ -33,8 +33,8 @@ export default class FazBsNavItemElement extends FazElementItem {
         this.navItemLink = document.createElement("a");
         this.navItemUl = document.createElement("ul");
         
-        this.addEventListener("activeChanged", (e) => this.updateClassNames());
-        this.addEventListener("disabledChanged", (e) =>
+        this.addEventListener("activechange", (e) => this.updateClassNames());
+        this.addEventListener("disabledchange", (e) =>
             this.updateClassNames());
     }
 
@@ -47,15 +47,15 @@ export default class FazBsNavItemElement extends FazElementItem {
             const oldValue = this._linkClasses;
             this._linkClasses = value;
             if (!this.loading) {
-                const e = this.createEvent("linkClassesChanged",
+                const e = this.createEvent("linkclasseschange",
                     value, oldValue);
                 this.dispatchEvent(e);
-                this.onLinkClassesChanged(e);
+                this.onLinkClassesChange(e);
             }
         }
     }
 
-    onLinkClassesChanged(e: Event) {}
+    onLinkClassesChange(e: Event) {}
 
     get contentChild() {
         if (this.content === null) {

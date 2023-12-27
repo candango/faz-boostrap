@@ -24,6 +24,9 @@ export class FazBsAlert extends FazBsElementItem {
     constructor() {
         super();
         this.divAlert = document.createElement("div");
+        this.addEventListener("kindchange", (_) => 
+                              this.divAlert?.setAttribute(
+                                  "class", this.classNames));
     }
 
     get classNames() {
@@ -35,10 +38,6 @@ export class FazBsAlert extends FazBsElementItem {
             classes.push(this.extraClasses);
         }
         return classes.join(" ");
-    }
-
-    onKindChange(newValue: string|null, oldValue: string|null): void {
-        this.divAlert?.setAttribute("class", this.classNames); 
     }
 
     show() {
