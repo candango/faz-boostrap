@@ -74,7 +74,6 @@ export default class FazBsNavItemElement extends FazElementItem {
     }
 
     get isDropdown() {
-        this.loading;
         return this.items.length > 0;
     }
 
@@ -118,9 +117,6 @@ export default class FazBsNavItemElement extends FazElementItem {
         }
         if (this.active && !this.disabled) {
             classes.push("active");
-            if (this.root) {
-                this.root.current = this;
-            }
         }
         if (this.disabled) {
             classes.push("disabled");
@@ -206,6 +202,9 @@ export default class FazBsNavItemElement extends FazElementItem {
             }
         });
         this.active = true;
+        if (this.root) {
+            this.root.current = this;
+        }
         if (this.root?.hasTabs) {
             this.root?.tabItems.forEach((item) => {
                 if(item.id === this.link.replace("#", "")){
