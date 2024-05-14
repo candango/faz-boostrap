@@ -22,9 +22,9 @@
     "dependencies": {
         "@popperjs/core": "2.11.8",
         "axios": "1.6.1",
-        "bootstrap": "5.3.2",
-        "bootstrap-icons": "1.11.2",
-        "bootswatch": "5.3.2",
+        "bootstrap": "5.3.3",
+        "bootstrap-icons": "1.11.3",
+        "bootswatch": "5.3.3",
         "faz": "0.1.11",
         "less": "4.2.0",
         "lodash": "4.17.21"
