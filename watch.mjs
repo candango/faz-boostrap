@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ let ctx = await esbuild.context({
 await ctx.watch();
 
 await ctx.serve({
-    port: 8080,
+    port: 8081,
     servedir: "showcase",
     onRequest: (args) => {
         let logMessage = "";
