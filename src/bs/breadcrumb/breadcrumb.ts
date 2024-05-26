@@ -14,39 +14,39 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
-import { FazBsBreadcrumbItem } from "./breadcrumb-item";
+import { FazBsElementItem } from "../../bs-item"
+import { FazBsBreadcrumbItem } from "./breadcrumb-item"
 
 
 export class FazBsBreadcrumb extends FazBsElementItem {
 
-    private itemNav: HTMLElement;
-    private itemOl: HTMLOListElement;
+    private breadcrumbNav: HTMLElement
+    private breadcrumbOl: HTMLOListElement
 
     constructor() {
-        super();
-        this.itemNav = document.createElement("nav");
-        this.itemOl = document.createElement("ol");
+        super()
+        this.breadcrumbNav = document.createElement("nav")
+        this.breadcrumbOl = document.createElement("ol")
     }
 
     get classNames() {
-        let classes = ["breadcrumb"];
-        return classes.join(" ");
+        let classes = ["breadcrumb"]
+        return classes.join(" ")
     }
 
     get contentChild() {
-        return this.itemOl;
+        return this.breadcrumbOl
     }
 
     show() {
-        this.itemNav.setAttribute("id", `faz-bs-breadcrumb-${this.id}`);
-        this.itemNav.setAttribute("aria-label", "breadcrumb");
-        this.itemOl.setAttribute("class", this.classNames);
-        this.itemNav.appendChild(this.itemOl);
-        this.appendChild(this.itemNav);
-        this.classList.add("faz-bs-breadcrumb-rendered");
+        this.breadcrumbNav.setAttribute("id", `faz-bs-breadcrumb-${this.id}`)
+        this.breadcrumbNav.setAttribute("aria-label", "breadcrumb")
+        this.breadcrumbOl.setAttribute("class", this.classNames)
+        this.breadcrumbNav.appendChild(this.breadcrumbOl)
+        this.appendChild(this.breadcrumbNav)
+        this.classList.add("faz-bs-breadcrumb-rendered")
     }
 }
 
-customElements.define("faz-bs-breadcrumb", FazBsBreadcrumb);
-customElements.define("faz-bs-breadcrumb-item", FazBsBreadcrumbItem);
+customElements.define("faz-bs-breadcrumb", FazBsBreadcrumb)
+customElements.define("faz-bs-breadcrumb-item", FazBsBreadcrumbItem)

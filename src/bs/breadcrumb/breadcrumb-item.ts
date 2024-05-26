@@ -14,51 +14,51 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../../bs-item"
 
 
 export class FazBsBreadcrumbItem extends FazBsElementItem {
 
-    private itemLi: HTMLLIElement;
-    private itemA: HTMLAnchorElement;
+    private itemLi: HTMLLIElement
+    private itemA: HTMLAnchorElement
 
     constructor() {
-        super();
-        this.itemLi = document.createElement("li");
-        this.itemA = document.createElement("a");
+        super()
+        this.itemLi = document.createElement("li")
+        this.itemA = document.createElement("a")
     }
 
     get classNames() {
-        let classes = ["breadcrumb-item"];
+        let classes = ["breadcrumb-item"]
         if (this.active) {
-            classes.push("active");
+            classes.push("active")
         }
-        return classes.join(" ");
+        return classes.join(" ")
     }
 
     get contentChild() {
         if (this.linkIsVoid) {
-            return this.itemLi;
+            return this.itemLi
         } 
-        return this.itemA;
+        return this.itemA
     }
 
     get isEdge() {
-        return this.parent?.items[this.parent?.items.length-1] === this;
+        return this.parent?.items[this.parent?.items.length-1] === this
     }
 
     show() {
-        this.itemLi.setAttribute("class", this.classNames);
-        this.itemLi.setAttribute("id", `faz-bs-breadcrumb-item-${this.id}`);
+        this.itemLi.setAttribute("class", this.classNames)
+        this.itemLi.setAttribute("id", `faz-bs-breadcrumb-item-${this.id}`)
         if (this.isEdge) {
-            this.itemLi.setAttribute("aria-current", "page");
+            this.itemLi.setAttribute("aria-current", "page")
         }
         if (!this.linkIsVoid) {
-            this.itemA.setAttribute("href", this.link);
-            this.itemLi.appendChild(this.itemA);
+            this.itemA.setAttribute("href", this.link)
+            this.itemLi.appendChild(this.itemA)
         }
-        this.parent?.contentChild?.appendChild(this.itemLi);
-        this.classList.add("faz-bs-breadcrumb-item-rendered");
+        this.parent?.contentChild?.appendChild(this.itemLi)
+        this.classList.add("faz-bs-breadcrumb-item-rendered")
     }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
-import { render } from "solid-js/web";
+import { FazBsElementItem } from "../../bs-item"
+import { render } from "solid-js/web"
 
 export class FazBsNavbarToggler extends FazBsElementItem {
 
     constructor() {
-        super();
+        super()
     }
 
     get classNames() {
-        let classes = ["collapse navbar-collapse"];
-        this.setClasses(classes.join(" "));
-        return this.classes();
+        let classes = ["collapse navbar-collapse"]
+        this.setClasses(classes.join(" "))
+        return this.classes()
     }
 
     show() {
@@ -34,6 +34,6 @@ export class FazBsNavbarToggler extends FazBsElementItem {
             id={`faz-bs-navbar-toggler-${this.id}`}
             data-bs-toggle="collapse"
             data-bs-target={`#navbar-collapse-${this.target()}`}>    
-        </button> , this);
+        </button> , this)
     }
 }

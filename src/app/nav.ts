@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../bs/breadcrumb/breadcrumb";
-import "../bs/nav/nav";
+import "../bs/breadcrumb/breadcrumb"
+import "../bs/nav/nav"

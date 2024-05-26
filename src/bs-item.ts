@@ -14,44 +14,44 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz";
+import { FazElementItem } from "faz"
 
 
 export class FazBsElementItem extends FazElementItem {
 
-    private _kind: string | null = "primary";
-    private _target: string | null = null;
-    private _theme: string | null = null;
+    private _kind: string | null = "primary"
+    private _target: string | null = null
+    private _theme: string | null = null
 
     constructor() {
-        super();
+        super()
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "kind":
-                    this._kind = attribute.value.toLowerCase();
-                    break;
+                    this._kind = attribute.value.toLowerCase()
+                    break
                 case "target":
-                    this._target = attribute.value;
-                    break;
+                    this._target = attribute.value
+                    break
                 case "theme":
-                    this._theme = attribute.value;
-                    break;
+                    this._theme = attribute.value
+                    break
             }
         }
     }
 
     get kind(): string | null {
-        return this._kind;
+        return this._kind
     }
 
     set kind(value: string | null) {
         if (this._kind !== value) {
-            const oldValue = this._kind;
-            this._kind = value;
+            const oldValue = this._kind
+            this._kind = value
             if (!this.loading) {
-                const e = this.createEvent("kindchange", value, oldValue);
-                this.dispatchEvent(e);
-                this.onKindChange(e);
+                const e = this.createEvent("kindchange", value, oldValue)
+                this.dispatchEvent(e)
+                this.onKindChange(e)
             }
         }
     }
@@ -59,17 +59,17 @@ export class FazBsElementItem extends FazElementItem {
     onKindChange(e: Event) { }
 
     get target(): string | null {
-        return this._target;
+        return this._target
     }
 
     set target(value: string | null) {
         if (this._target !== value) {
-            const oldValue = this._target;
-            this._target = value;
+            const oldValue = this._target
+            this._target = value
             if (!this.loading) {
-                const e = this.createEvent("targetchange", value, oldValue);
-                this.dispatchEvent(e);
-                this.onTargetChange(e);
+                const e = this.createEvent("targetchange", value, oldValue)
+                this.dispatchEvent(e)
+                this.onTargetChange(e)
             }
         }
     }
@@ -77,17 +77,17 @@ export class FazBsElementItem extends FazElementItem {
     onTargetChange(e: Event) { }
 
     get theme(): string | null {
-        return this._theme;
+        return this._theme
     }
 
     set theme(value: string | null) {
         if (this._theme !== value) {
-            const oldValue = this._theme;
-            this._theme = value;
+            const oldValue = this._theme
+            this._theme = value
             if (!this.loading) {
-                const e = this.createEvent("themechange", value, oldValue);
-                this.dispatchEvent(e);
-                this.onThemeChange(e);
+                const e = this.createEvent("themechange", value, oldValue)
+                this.dispatchEvent(e)
+                this.onThemeChange(e)
             }
         }
     }

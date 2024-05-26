@@ -14,42 +14,42 @@
  * limitations under the License.
  */
 
-import FazBsNavElement from "./nav";
-import { FazElementItem, toBoolean } from "faz";
+import FazBsNavElement from "./nav"
+import { FazElementItem, toBoolean } from "faz"
 
 
 export default class FazBsNavTabElement extends FazElementItem {
 
-    private _fade: boolean = false;
+    private _fade: boolean = false
     
-    private navTabContainer: HTMLElement;
+    private navTabContainer: HTMLElement
 
     constructor() {
-        super();
-        this.navTabContainer = document.createElement("div");
+        super()
+        this.navTabContainer = document.createElement("div")
         for (let attribute of this.attributes) {
             switch (attribute.name) {
                 case "fade":
-                    this._fade = toBoolean(attribute.value);
-                    break;
+                    this._fade = toBoolean(attribute.value)
+                    break
             }
         }
-        this.addEventListener("activechange", (e) => this.updateClassNames());
-        this.addEventListener("fadechange", (e) => this.updateClassNames());
+        this.addEventListener("activechange", (_) => this.updateClassNames())
+        this.addEventListener("fadechange", (_) => this.updateClassNames())
     }
 
     get fade(): boolean {
-        return this._fade;
+        return this._fade
     }
 
     set fade(value: boolean) {
         if (this._fade !== value) {
-            const oldValue = this._fade;
-            this._fade = value;
+            const oldValue = this._fade
+            this._fade = value
             if (!this.loading) {
-                const e = this.createEvent("fadechange", value, oldValue);
-                this.dispatchEvent(e);
-                this.onFadeChange(e);
+                const e = this.createEvent("fadechange", value, oldValue)
+                this.dispatchEvent(e)
+                this.onFadeChange(e)
             }
         }
     }
@@ -57,46 +57,46 @@ export default class FazBsNavTabElement extends FazElementItem {
     onFadeChange(e: Event) {}
 
     get ariaLabelledby() {
-        let labelledby = "";
+        let labelledby = ""
         this.parent?.items.forEach((item) => {
             if (this.id === item.link) {
-                labelledby = item.id;
-                return;
+                labelledby = item.id
+                return
             }
-        });
-        return labelledby;
+        })
+        return labelledby
     }
 
     get classNames() {
-        let classes = ["tab-pane"];
+        let classes = ["tab-pane"]
         if (this.fade) {
-            classes.push("fade");
+            classes.push("fade")
             if (this.active) {
-                classes.push("show");
+                classes.push("show")
             }
         }
         if (this.active) {
-            classes.push("anchor");
-            classes.push("active");
+            classes.push("anchor")
+            classes.push("active")
         }
-        return classes.join(" ");
+        return classes.join(" ")
     }
 
     get contentChild() {
-        return this.navTabContainer;
+        return this.navTabContainer
     }
 
     updateClassNames() {
-        this.navTabContainer.setAttribute("class", this.classNames);
+        this.navTabContainer.setAttribute("class", this.classNames)
     }
 
     show() {
-        this.navTabContainer.setAttribute("class", this.classNames);
-        this.navTabContainer.setAttribute("id", `nav_tab_container${this.id}`);
-        this.navTabContainer.setAttribute("role", "tabpanel");
+        this.navTabContainer.setAttribute("class", this.classNames)
+        this.navTabContainer.setAttribute("id", `nav_tab_container${this.id}`)
+        this.navTabContainer.setAttribute("role", "tabpanel")
         this.navTabContainer.setAttribute("aria-labelledby",
-            this.ariaLabelledby);
-        const parent = this.parent as FazBsNavElement;
-        parent?.tabContentChild.appendChild(this.navTabContainer);
+            this.ariaLabelledby)
+        const parent = this.parent as FazBsNavElement
+        parent?.tabContentChild.appendChild(this.navTabContainer)
     }
 }

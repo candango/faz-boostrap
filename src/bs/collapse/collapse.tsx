@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2023 Flavio Garcia
+ * Copyright 2018-2024 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,30 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
-import { render } from "solid-js/web";
+import { FazBsElementItem } from "../../bs-item"
 
 export class FazBsCollapse extends FazBsElementItem {
 
+    public divCollapse: HTMLDivElement
+
     constructor() {
-        super();
+        super()
+        this.divCollapse = document.createElement("div")
     }
 
     get classNames() {
-        let classes = ["collapse"];
-        if (this.parent()?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
-            classes.push("navbar-collapse");
+        let classes = ["collapse"]
+        if (this.parent?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
+            classes.push("navbar-collapse")
         }
-        this.setClasses(classes.join(" "));
-        return this.classes();
+        return classes.join(" ")
     }
 
     show() {
-        render(() => <div  class={this.classNames} id={this.id}>    
-        </div> , this);
+        this.divCollapse.setAttribute("class", this.classNames)
+        this.divCollapse.setAttribute("id", this.id)
+        this.appendChild(this.divCollapse)
     }
 }
 
-customElements.define("faz-bs-collapse", FazBsCollapse);
+customElements.define("faz-bs-collapse", FazBsCollapse)

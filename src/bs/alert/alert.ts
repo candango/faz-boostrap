@@ -14,40 +14,40 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../../bs-item"
 
 
 export class FazBsAlert extends FazBsElementItem {
 
-    public divAlert: HTMLDivElement;
+    public divAlert: HTMLDivElement
 
     constructor() {
-        super();
-        this.divAlert = document.createElement("div");
+        super()
+        this.divAlert = document.createElement("div")
         this.addEventListener("kindchange", (_) => 
                               this.divAlert?.setAttribute(
-                                  "class", this.classNames));
+                                  "class", this.classNames))
     }
 
     get classNames() {
-        let classes = ["alert"];
+        let classes = ["alert"]
         if (this.kind) {
-            classes.push(`alert-${this.kind}`);
+            classes.push(`alert-${this.kind}`)
         }
         if (this.extraClasses) {
-            classes.push(this.extraClasses);
+            classes.push(this.extraClasses)
         }
-        return classes.join(" ");
+        return classes.join(" ")
     }
 
     show() {
-        const role = "alert";
-        this.appendChild(this.divAlert);
-        this.divAlert.setAttribute("id", `faz-bs-alert-${this.id}`);
-        this.divAlert.setAttribute("class", this.classNames);
-        this.divAlert.setAttribute("role", role);
-        this.classList.add("faz-bs-alert-rendered");
+        const role = "alert"
+        this.appendChild(this.divAlert)
+        this.divAlert.setAttribute("id", `faz-bs-alert-${this.id}`)
+        this.divAlert.setAttribute("class", this.classNames)
+        this.divAlert.setAttribute("role", role)
+        this.classList.add("faz-bs-alert-rendered")
     }
 }
 
-customElements.define("faz-bs-alert", FazBsAlert);
+customElements.define("faz-bs-alert", FazBsAlert)
