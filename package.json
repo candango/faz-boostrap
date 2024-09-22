@@ -33,7 +33,7 @@
         "@codemirror/lang-html": "6.4.9",
         "@codemirror/language": "6.10.1",
         "@codemirror/view": "6.26.3",
-        "@types/lodash": "4.17.4",
+        "@types/lodash": "4.17.7",
         "@types/node": "20.12.12",
         "esbuild": "0.24.0",
         "esbuild-plugin-copy": "2.1.1",
