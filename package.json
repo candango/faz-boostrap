@@ -25,7 +25,7 @@
         "bootstrap": "5.3.3",
         "bootstrap-icons": "1.11.3",
         "bootswatch": "5.3.3",
-        "faz": "0.1.12",
+        "faz": "0.1.13",
         "less": "4.2.0",
         "lodash": "4.17.21"
     },
