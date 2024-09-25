@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import * as esbuild from "esbuild";
+import { build } from "esbuild";
 import { assets } from "./assets.mjs";
 import {entryPoints} from "./entryPoints.mjs";
 import { copy } from "esbuild-plugin-copy";
+import { solidPlugin } from "esbuild-plugin-solid";
 
-await esbuild.build({
+await build({
     entryPoints: entryPoints,
     bundle: true,
     minify: true,
@@ -31,6 +32,7 @@ await esbuild.build({
     legalComments: "none",
     allowOverwrite: true,
     plugins:[
+        solidPlugin(),
         copy(assets)
     ]
 }).catch(() => process.exit(1));

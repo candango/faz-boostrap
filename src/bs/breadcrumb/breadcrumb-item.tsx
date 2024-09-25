@@ -15,22 +15,22 @@
  */
 
 import { FazBsElementItem } from "../../bs-item"
+import { MountableElement, render } from "solid-js/web"
+import { JSX } from "solid-js/jsx-runtime"
 
 
 export class FazBsBreadcrumbItem extends FazBsElementItem {
 
-    private itemLi: HTMLLIElement
-    private itemA: HTMLAnchorElement
+    private itemLi: JSX.Element
+    private itemA: JSX.Element
 
     constructor() {
         super()
-        this.itemLi = document.createElement("li")
-        this.itemA = document.createElement("a")
     }
 
     get classNames() {
         let classes = ["breadcrumb-item"]
-        if (this.active) {
+        if (this.active()) {
             classes.push("active")
         }
         return classes.join(" ")
@@ -38,26 +38,32 @@ export class FazBsBreadcrumbItem extends FazBsElementItem {
 
     get contentChild() {
         if (this.linkIsVoid) {
-            return this.itemLi
+            return this.itemLi as ChildNode
         } 
-        return this.itemA
+        return this.itemA as ChildNode
     }
 
     get isEdge() {
         return this.parent?.items[this.parent?.items.length-1] === this
     }
 
-    show() {
-        this.itemLi.setAttribute("class", this.classNames)
-        this.itemLi.setAttribute("id", `faz-bs-breadcrumb-item-${this.id}`)
+    get ariaCurrentAttr(): "page"|undefined {
         if (this.isEdge) {
-            this.itemLi.setAttribute("aria-current", "page")
+            return "page"
         }
-        if (!this.linkIsVoid) {
-            this.itemA.setAttribute("href", this.link)
-            this.itemLi.appendChild(this.itemA)
-        }
-        this.parent?.contentChild?.appendChild(this.itemLi)
+        return undefined
+    }
+
+    show() {
+        this.itemA = <a href={this.link}></a>
+        this.itemLi = <li 
+               id={`faz-bs-breadcrumb-item-${this.id}`}
+               class={this.classNames}
+               aria-current={this.ariaCurrentAttr}
+               aria-label="breadcrumb">
+               {this.itemA}
+               </li>
+        render(() => this.itemLi, this.parentElement as MountableElement)
         this.classList.add("faz-bs-breadcrumb-item-rendered")
     }
 }

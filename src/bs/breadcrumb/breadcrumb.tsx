@@ -16,17 +16,16 @@
 
 import { FazBsElementItem } from "../../bs-item"
 import { FazBsBreadcrumbItem } from "./breadcrumb-item"
+import { JSX } from "solid-js/jsx-runtime"
+import { render } from "solid-js/web"
 
 
 export class FazBsBreadcrumb extends FazBsElementItem {
 
-    private breadcrumbNav: HTMLElement
-    private breadcrumbOl: HTMLOListElement
+    private itemOl: JSX.Element
 
     constructor() {
         super()
-        this.breadcrumbNav = document.createElement("nav")
-        this.breadcrumbOl = document.createElement("ol")
     }
 
     get classNames() {
@@ -35,15 +34,15 @@ export class FazBsBreadcrumb extends FazBsElementItem {
     }
 
     get contentChild() {
-        return this.breadcrumbOl
+        return this.itemOl as ChildNode
     }
 
     show() {
-        this.breadcrumbNav.setAttribute("id", `faz-bs-breadcrumb-${this.id}`)
-        this.breadcrumbNav.setAttribute("aria-label", "breadcrumb")
-        this.breadcrumbOl.setAttribute("class", this.classNames)
-        this.breadcrumbNav.appendChild(this.breadcrumbOl)
-        this.appendChild(this.breadcrumbNav)
+        this.itemOl = <ol class={this.classNames}></ol>
+        render(() => <nav id={`faz-bs-breadcrumb--${this.id}`}
+               aria-label="breadcrumb">
+               {this.itemOl} 
+               </nav>, this)
         this.classList.add("faz-bs-breadcrumb-rendered")
     }
 }

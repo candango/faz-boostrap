@@ -15,37 +15,31 @@
  */
 
 import { FazBsElementItem } from "../../bs-item"
+import { render } from "solid-js/web"
 
 
 export class FazBsAlert extends FazBsElementItem {
 
-    public divAlert: HTMLDivElement
-
     constructor() {
         super()
-        this.divAlert = document.createElement("div")
-        this.addEventListener("kindchange", (_) => 
-                              this.divAlert?.setAttribute(
-                                  "class", this.classNames))
     }
 
     get classNames() {
+        console.log("building class names")
         let classes = ["alert"]
-        if (this.kind) {
-            classes.push(`alert-${this.kind}`)
+        if (this.extraClasses()!=="") {
+            classes.push(this.extraClasses())
         }
-        if (this.extraClasses) {
-            classes.push(this.extraClasses)
+        if (this.kind()) {
+            classes.push(`alert-${this.kind()}`)
         }
         return classes.join(" ")
     }
 
     show() {
-        const role = "alert"
-        this.appendChild(this.divAlert)
-        this.divAlert.setAttribute("id", `faz-bs-alert-${this.id}`)
-        this.divAlert.setAttribute("class", this.classNames)
-        this.divAlert.setAttribute("role", role)
+        render(() => <div  role="alert"
+               id={`faz-bs-alert-${this.id}`}
+               class={this.classNames}></div>, this)
         this.classList.add("faz-bs-alert-rendered")
     }
 }

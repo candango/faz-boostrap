@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import * as esbuild from "esbuild";
+import { context } from "esbuild";
 import { assets } from "./assets.mjs";
 import { entryPoints } from "./entryPoints.mjs";
 import { copy } from "esbuild-plugin-copy";
+import { solidPlugin } from "esbuild-plugin-solid";
 
-let ctx = await esbuild.context({
+let ctx = await context({
     entryPoints: entryPoints,
     bundle: true,
     minify: true,
@@ -31,7 +32,8 @@ let ctx = await esbuild.context({
     legalComments: "none",
     allowOverwrite: false,
     plugins:[
-        copy(assets)
+        copy(assets),
+        solidPlugin()
     ]
 });
 

@@ -25,9 +25,10 @@
         "bootstrap": "5.3.3",
         "bootstrap-icons": "1.11.3",
         "bootswatch": "5.3.3",
-        "faz": "0.1.13",
+        "faz": "0.1.18",
         "less": "4.2.0",
-        "lodash": "4.17.21"
+        "lodash": "4.17.21",
+        "solid-js": "1.8.17"
     },
     "devDependencies": {
         "@codemirror/lang-html": "6.4.9",
@@ -37,8 +38,8 @@
         "@types/node": "22.5.5",
         "esbuild": "0.24.0",
         "esbuild-plugin-copy": "2.1.1",
+        "esbuild-plugin-solid": "0.6.0",
         "prettier": "3.3.3",
-        "ts-loader": "9.5.1",
         "typescript": "5.6.2"
     },
     "scripts": {
@@ -60,5 +61,5 @@
         "yarn:clean": "rm -rf yarn.lock .yarn .yarnrc.yml .next node_modules",
         "yarn:v2": "yarn set version berry && yarn config set nodeLinker node-modules"
     },
-    "packageManager": "yarn@4.0.2"
+    "packageManager": "yarn@4.5.0"
 }
