@@ -14,57 +14,95 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item"
-import { MountableElement, render } from "solid-js/web"
-import { JSX } from "solid-js/jsx-runtime"
+import { FazBsElementItem } from "../../bs-item";
+import { MountableElement, render } from "solid-js/web";
+import { JSX } from "solid-js/jsx-runtime";
+import { createEffect } from "solid-js";
 
 
 export class FazBsBreadcrumbItem extends FazBsElementItem {
 
-    private itemLi: JSX.Element
-    private itemA: JSX.Element
+    private itemLi: JSX.Element;
+    private itemA: JSX.Element;
+    private itemSpam: JSX.Element;
 
     constructor() {
-        super()
+        super();
+    }
+
+    get aClassNames() {
+        let classes = [];
+        if (this.linkIsVoid) {
+            classes.push("d-none");
+        }
+        return classes.join(" ");
+    }
+
+    get spamClassNames() {
+        let classes = [];
+        if (!this.linkIsVoid) {
+            classes.push("d-none");
+        }
+        return classes.join(" ");
     }
 
     get classNames() {
-        let classes = ["breadcrumb-item"]
+        let classes = ["breadcrumb-item"];
         if (this.active()) {
-            classes.push("active")
+            classes.push("active");
         }
-        return classes.join(" ")
+        return classes.join(" ");
     }
 
     get contentChild() {
         if (this.linkIsVoid) {
-            return this.itemLi as ChildNode
+            return this.itemSpam as ChildNode;
         } 
-        return this.itemA as ChildNode
+        return this.itemA as ChildNode;
     }
 
-    get isEdge() {
-        return this.parent?.items[this.parent?.items.length-1] === this
-    }
-
-    get ariaCurrentAttr(): "page"|undefined {
-        if (this.isEdge) {
-            return "page"
+    get isEdge(): boolean {
+        const parent = this.parent();
+        if (parent === undefined) {
+            return false;
         }
-        return undefined
+        return parent?.items()[parent?.items()?.length-1] === this;
+    }
+
+    private ariaCurrentValue(): "page"|undefined {
+        if (this.isEdge) {
+            return "page";
+        }
+        return undefined;
+    }
+
+    afterShow(): void {
+        createEffect(() => {
+            let itemOrig = this.itemSpam as ChildNode;
+            let itemTarget = this.itemA as ChildNode;
+            if (this.linkIsVoid) {
+                itemOrig = this.itemA as ChildNode;
+                itemTarget = this.itemSpam as ChildNode;
+            }
+            if (itemOrig.firstChild != null) {
+                while(itemOrig.firstChild) {
+                    itemTarget.appendChild(itemOrig.firstChild);
+                }
+            }
+        });
     }
 
     show() {
-        this.itemA = <a href={this.link}></a>
+        this.itemA = <a class={this.aClassNames} href={this.link()}></a>;
+        this.itemSpam = <span class={this.spamClassNames}></span>;
         this.itemLi = <li 
                id={`faz-bs-breadcrumb-item-${this.id}`}
                class={this.classNames}
-               aria-current={this.ariaCurrentAttr}
+               aria-current={this.ariaCurrentValue()}
                aria-label="breadcrumb">
-               {this.itemA}
-               </li>
-        render(() => this.itemLi, this.parentElement as MountableElement)
-        this.classList.add("faz-bs-breadcrumb-item-rendered")
+               {this.itemA}{this.itemSpam}
+               </li>;
+        render(() => this.itemLi, this.parentElement as MountableElement);
+        this.classList.add("faz-bs-breadcrumb-item-rendered");
     }
 }
-

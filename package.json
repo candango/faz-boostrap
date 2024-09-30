@@ -25,7 +25,7 @@
         "bootstrap": "5.3.3",
         "bootstrap-icons": "1.11.3",
         "bootswatch": "5.3.3",
-        "faz": "0.1.18",
+        "faz": "0.1.25",
         "less": "4.2.0",
         "lodash": "4.17.21",
         "solid-js": "1.8.17"
@@ -43,7 +43,8 @@
         "typescript": "5.6.2"
     },
     "scripts": {
-        "watch": "node watch.mjs",
+        "watch": "npm run watch:clean && node watch.mjs",
+        "watch:clean": "rm -rf watch/dist",
         "esbuild": "node build.mjs",
         "build": "npm run build:clean && npm run lessc && npm run esbuild",
         "build:prod": "npm run build:clean && webpack --config webpack.config.prod.js && npm run lessc",

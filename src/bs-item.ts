@@ -14,83 +14,38 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz"
+import { FazElementItem } from "faz/src";
+import { Accessor, createSignal, Setter } from "solid-js";
 
 
 export class FazBsElementItem extends FazElementItem {
 
-    private _kind: string | null = "primary"
-    private _target: string | null = null
-    private _theme: string | null = null
+    public kind: Accessor<string|undefined>;
+    public setKind: Setter<string|undefined>;
+    public target: Accessor<string|undefined>;
+    public setTarget: Setter<string|undefined>;
+    public theme: Accessor<string|undefined>;
+    public setTheme: Setter<string|undefined>;
 
     constructor() {
-        super()
+        super();
+
+        [this.kind, this.setKind] = createSignal<string|undefined>(undefined);
+        [this.target, this.setTarget] = createSignal<string|undefined>(undefined);
+        [this.theme, this.setTheme] = createSignal<string|undefined>(undefined);
+
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "kind":
-                    this._kind = attribute.value.toLowerCase()
-                    break
+                    this.setKind(attribute.value.toLowerCase());
+                    break;
                 case "target":
-                    this._target = attribute.value
-                    break
+                    this.setTarget(attribute.value);
+                    break;
                 case "theme":
-                    this._theme = attribute.value
-                    break
+                    this.setTheme(attribute.value);
+                    break;
             }
         }
     }
-
-    get kind(): string | null {
-        return this._kind
-    }
-
-    set kind(value: string | null) {
-        if (this._kind !== value) {
-            const oldValue = this._kind
-            this._kind = value
-            if (!this.loading) {
-                const e = this.createEvent("kindchange", value, oldValue)
-                this.dispatchEvent(e)
-                this.onKindChange(e)
-            }
-        }
-    }
-
-    onKindChange(e: Event) { }
-
-    get target(): string | null {
-        return this._target
-    }
-
-    set target(value: string | null) {
-        if (this._target !== value) {
-            const oldValue = this._target
-            this._target = value
-            if (!this.loading) {
-                const e = this.createEvent("targetchange", value, oldValue)
-                this.dispatchEvent(e)
-                this.onTargetChange(e)
-            }
-        }
-    }
-
-    onTargetChange(e: Event) { }
-
-    get theme(): string | null {
-        return this._theme
-    }
-
-    set theme(value: string | null) {
-        if (this._theme !== value) {
-            const oldValue = this._theme
-            this._theme = value
-            if (!this.loading) {
-                const e = this.createEvent("themechange", value, oldValue)
-                this.dispatchEvent(e)
-                this.onThemeChange(e)
-            }
-        }
-    }
-
-    onThemeChange(e: Event) { }
 }

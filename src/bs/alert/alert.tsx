@@ -14,34 +14,36 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item"
-import { render } from "solid-js/web"
+import { FazBsElementItem } from "../../bs-item";
+import { render } from "solid-js/web";
 
 
 export class FazBsAlert extends FazBsElementItem {
 
     constructor() {
-        super()
+        super();
+        if (this.kind() === undefined) {
+            this.setKind("primary");
+        }
     }
 
     get classNames() {
-        console.log("building class names")
-        let classes = ["alert"]
-        if (this.extraClasses()!=="") {
-            classes.push(this.extraClasses())
+        let classes = ["alert"];
+        if (this.extraClasses()) {
+            classes.push(this.extraClasses());
         }
         if (this.kind()) {
-            classes.push(`alert-${this.kind()}`)
+            classes.push(`alert-${this.kind()}`);
         }
-        return classes.join(" ")
+        return classes.join(" ");
     }
 
     show() {
-        render(() => <div  role="alert"
+        render(() => <div role="alert"
                id={`faz-bs-alert-${this.id}`}
-               class={this.classNames}></div>, this)
-        this.classList.add("faz-bs-alert-rendered")
+               class={this.classNames}></div>, this);
+        this.classList.add("faz-bs-alert-rendered");
     }
 }
 
-customElements.define("faz-bs-alert", FazBsAlert)
+customElements.define("faz-bs-alert", FazBsAlert);

@@ -14,38 +14,34 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item"
-import { FazBsBreadcrumbItem } from "./breadcrumb-item"
-import { JSX } from "solid-js/jsx-runtime"
-import { render } from "solid-js/web"
+import { FazBsElementItem } from "../../bs-item";
+import { FazBsBreadcrumbItem } from "./breadcrumb-item";
+import { JSX } from "solid-js/jsx-runtime";
+import { render } from "solid-js/web";
 
 
 export class FazBsBreadcrumb extends FazBsElementItem {
 
-    private itemOl: JSX.Element
-
-    constructor() {
-        super()
-    }
+    private itemOl: JSX.Element;
 
     get classNames() {
-        let classes = ["breadcrumb"]
-        return classes.join(" ")
+        let classes = ["breadcrumb"];
+        return classes.join(" ");
     }
 
     get contentChild() {
-        return this.itemOl as ChildNode
+        return this.itemOl as ChildNode;
     }
 
     show() {
-        this.itemOl = <ol class={this.classNames}></ol>
+        this.itemOl = <ol class={this.classNames}></ol>;
         render(() => <nav id={`faz-bs-breadcrumb--${this.id}`}
                aria-label="breadcrumb">
                {this.itemOl} 
-               </nav>, this)
-        this.classList.add("faz-bs-breadcrumb-rendered")
+            </nav>, this);
+        this.classList.add("faz-bs-breadcrumb-rendered");
     }
 }
 
-customElements.define("faz-bs-breadcrumb", FazBsBreadcrumb)
-customElements.define("faz-bs-breadcrumb-item", FazBsBreadcrumbItem)
+customElements.define("faz-bs-breadcrumb", FazBsBreadcrumb);
+customElements.define("faz-bs-breadcrumb-item", FazBsBreadcrumbItem);

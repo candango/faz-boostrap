@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz"
+import { FazElementItem } from "faz/src";
 
 
 export default class FazBsNavItemContentElement extends FazElementItem {
     show() {
-        const contentSpam = document.createElement("spam")
-        this.appendChild(contentSpam)
+        const contentSpam = document.createElement("spam");
+        this.appendChild(contentSpam);
     }
 }
