@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Candango Faz Toolkit - Pagination</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/dist/vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/dist/css/faz.css" rel="stylesheet"/>
+    <link href="/dist/css/showcase.css" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+</head>
+
+<body>
+<main-navbar></main-navbar>
+
+<main role="main" class="container">
+    <faz-bs-breadcrumb faz-id="mainBreadcrumb">
+        <faz-bs-breadcrumb-item id="toHomeBreadCrumbItem" href="/">Home</faz-bs-breadcrumb-item>
+        <faz-bs-breadcrumb-item id="currenBreadCrumbItem">Pagination</faz-bs-breadcrumb-item>
+    </faz-bs-breadcrumb>
+    <h1>Pagination</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">One page</h2>
+            <p class="card-text">Pagination has count equals 9 (9 records counted).</p>
+            <p class="card-text">Records per page(perPage property) by default is 10 resulting in a pagination with only one page.</p>
+            <p class="card-text">All navigation buttons won't be displayed.</p>
+            <div id="onePageExample"><faz-bs-pagination fazid="bugahuga" debug="true" count="9"></faz-bs-pagination></div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Multiple pages and one block</h2>
+            <p class="card-text">A pagination with count equals 91 resulting in multiple pages.</p>
+            <p class="card-text">Pages per page(perBlock property) by default is 10 resulting in a pagination with only one block.</p>
+            <p class="card-text">All block navigation buttons won't be displayed.</p>
+            <div id="multiplePagesOneBlockExample"><faz-bs-pagination debug="true" count="91"></faz-bs-pagination></div>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Multiple pages and multiple blocks</h2>
+            <p class="card-text">A pagination with count equals 340 resulting in multiple pages and multiple blocks.</p>
+            <div id="multiplePagesMultipleBlocksExample"><faz-bs-pagination debug="true" count="340"></faz-bs-pagination></div>
+        </div>
+    </div>
+    <br>
+
+    <br>
+    <br>
+</main><!-- /.container -->
+
+<script src="/dist/global.bundle.js" ></script>
+<script>
+    // codemirrorit("oneAlertExample");
+    // codemirrorit("alertKindsExample");
+    // codemirrorit("nestAlertsExample");
+</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/dist/vendor/jquery.min.js"></script>
+<script src="/dist/vendor/popper.min.js"></script>
+<script src="/dist/vendor/bootstrap.min.js"></script>
+<script src="/dist/pagination-solid.bundle.js"></script>
+
+</body>
+</html>

@@ -19,6 +19,7 @@ export const entryPoints =  [
     { out: "breadcrumb-solid.bundle", in: "src/app/breadcrumb.ts" },
     { out: "nav-solid.bundle", in: "src/app/nav.ts" },
     { out: "navbar-solid.bundle", in: "src/app/navbar.tsx" },
+    { out: "pagination-solid.bundle", in: "src/app/pagination.ts" },
     { out: "global.bundle", in: "src/app/global.ts" },
 
     { out: "css/faz", in: "stylesheets/faz.css"},
