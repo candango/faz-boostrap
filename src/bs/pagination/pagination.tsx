@@ -15,6 +15,7 @@
  */
 
 import { FazBsElementItem } from "../../bs-item";
+import { toBoolean } from "faz/src/values";
 import { Accessor, createSignal, JSX, Setter } from "solid-js";
 import { render } from "solid-js/web";
 
@@ -56,6 +57,10 @@ export class FazBsPagination extends FazBsElementItem {
             switch (attribute.name.toLowerCase()) {
                 case "count":
                     this.setCount(parseInt(attribute.value));
+                    break;
+                case "debug":
+                    // TODO: this should be reactive and implemented at FazElementItem
+                    this.debug = toBoolean(attribute.value);
                     break;
                 case "page":
                     this.setCount(parseInt(attribute.value));
@@ -194,7 +199,6 @@ export class FazBsPagination extends FazBsElementItem {
     }
 
     get isLastPage() {
-        console.log(this.protectedPage, this.pages)
         return this.protectedPage >= this.pages;
     }
 
@@ -208,6 +212,22 @@ export class FazBsPagination extends FazBsElementItem {
 
     get hasMultipleBlocks() {
         return this.blocks > 1;
+    }
+
+    get recordsInLastPage() {
+        let lastPageRemainder = this.count() % this.perPage();
+        return lastPageRemainder > 0 ? lastPageRemainder : this.perPage();
+    }
+
+    get currentFirstRecord() {
+        return (this.protectedPage * this.perPage()) - this.perPage() + 1;
+    }
+
+    get currentLastRecord() {
+        if (this.isLastPage) {
+            return this.currentFirstRecord + this.recordsInLastPage - 1;
+        }
+        return this.protectedPage * this.perPage();
     }
 
     goToPage(data: [FazBsPagination, number], _: Event) {
@@ -252,7 +272,7 @@ export class FazBsPagination extends FazBsElementItem {
         if (this.isCurrentPage(page)) {
             return <span class="page-link">{page}</span>;
         }
-        return <a onclick={[this.goToPage, [this, page]]} class="page-link" href="#">{page}</a>;
+        return <a onclick={[this.goToPage, [this, page]]} class="page-link" href={this.paginatedLink(1)}>{page}</a>;
     }
 
     renderPage(page: number): JSX.Element {
@@ -260,21 +280,22 @@ export class FazBsPagination extends FazBsElementItem {
     }
 
     renderPages(): JSX.Element[] {
-        return this.currentBlockPages.map((page) => this.renderPage(page));
+        return this.currentBlockPages.map((page) => {
+            return this.renderPage(page);
+        });
+        
     }
 
     renderFirstPage(): JSX.Element {
-        if (this.hasMultiplePages) {
+        if (this.hasMultiplePages && !this.isFirstPage) {
             return <li class={this.firstPreviousButtonClass}>
-            {this.isFirstPage ?
-                <span class="page-link">{this.labels.first}</span> :
-                <a class="page-link"
-            onclick={[this.goToFirstPage, this]}
-            href={this.paginatedLink(1)}
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title={this.labels.firstTooltip}
-            >{this.labels.first}</a>}
+            <a class="page-link"
+                onclick={[this.goToFirstPage, this]}
+                href={this.paginatedLink(1)}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title={this.labels.firstTooltip}
+            >{this.labels.first}</a>
             </li>;
         }
     }
@@ -296,38 +317,119 @@ export class FazBsPagination extends FazBsElementItem {
     }
 
     renderPreviousPage() {
-        if (this.hasMultiplePages) {
+        if (this.hasMultiplePages && !this.isFirstPage) {
             let page = this.page() - 1;
             return <li class={this.firstPreviousButtonClass}>
-            {this.isFirstPage ?
-                <span class="page-link">{this.labels.previous}</span> :
-                <a class="page-link"
-            onclick={[this.goToPreviousPage, this]}
-            href={this.paginatedLink(page)}
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title={this.labels.previousTooltip}
-            >{this.labels.previous}</a>}
+            <a class="page-link"
+                onclick={[this.goToPreviousPage, this]}
+                href={this.paginatedLink(page)}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title={this.labels.previousTooltip}
+            >{this.labels.previous}</a>
             </li>;
         }
     }
 
     renderPreviousBlock() {
-        let page = this.currentFirstPage - 1
-        let label = this.labels.previousBlock.replace("{perBlock}",
-            this.perBlock().toString())
-        let tooltipLabel = this.labels.previousBlockTooltip.replace(
-            "{perBlock}", this.perBlock().toString())
-        return <li class={this.previousBlockButtonClass}>
-            {this.isFirstBlock ?
-                "" :
-                <a class="page-link"
-                   onclick={[this.goToPreviousBlock, this]}
-                   href={this.paginatedLink(page)}
-                   data-bs-toggle="tooltip"
-                   data-bs-placement="top"
-                   title={tooltipLabel}>{label}</a>}
-        </li>
+        if (!this.isFirstBlock) {
+            let page = this.currentFirstPage - 1;
+            let label = this.labels.previousBlock.replace("{perBlock}", this.perBlock().toString());
+            let tooltipLabel = this.labels.previousBlockTooltip.replace("{perBlock}", this.perBlock().toString());
+            return <li class={this.previousBlockButtonClass}>
+            <a class="page-link"
+                onclick={[this.goToPreviousBlock, this]}
+                href={this.paginatedLink(page)}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title={tooltipLabel}>{label}</a>
+            </li>;
+        }
+    }
+
+    renderDebug() {
+        let accordionId = "faz-pagination-debug-".concat(this.id);
+        let collapseId = accordionId.concat("-", this.id);
+        return <div class="accordion faz-pagination-debug-accordion"
+                     id={accordionId}>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={"#".concat(collapseId)}
+                            aria-expanded="false"
+                            aria-controls={collapseId}>
+                        <b>Debug information for faz-bs-pagination:</b>
+                        &nbsp;{this.id}
+                    </button>
+                </h2>
+                <div id={collapseId}
+                     class="accordion-collapse collapse"
+                     aria-labelledby="headingOne"
+                     data-bs-parent={"#".concat(accordionId)}>
+                    <div class="accordion-body">
+                        <h5 class="card-title">Component State Information</h5>
+                        <dl class="row">
+                            <dt class="col-sm-3">Disabled:</dt>
+                            <dd class="col-sm-9">{this.disabled()? "disabled" : "enabled"}</dd>
+                        </dl>
+                        <h5 class="card-title">Records Information</h5>
+                        <dl class="row">
+                            <dt class="col-sm-3">Records:</dt>
+                            <dd class="col-sm-9">{this.count()}</dd>
+                            <dt class="col-sm-3">Current First Record:</dt>
+                            <dd class="col-sm-9">{this.currentFirstRecord}</dd>
+                            <dt class="col-sm-3">Current Last Record:</dt>
+                            <dd class="col-sm-9">{this.currentLastRecord}</dd>
+                        </dl>
+                        <h5 class="card-title">Pages Information</h5>
+                        <dl class="row">
+                            <dt class="col-sm-3">Pages:</dt>
+                            <dd class="col-sm-9">{this.pages}</dd>
+                            <dt class="col-sm-3">Current Page:</dt>
+                            <dd class="col-sm-9">{this.page()}</dd>
+                            <dt class="col-sm-3">Current Page Computed:</dt>
+                            <dd class="col-sm-9">{this.protectedPage}</dd>
+                            <dt class="col-sm-3">Current First Page:</dt>
+                            <dd class="col-sm-9">{this.currentFirstPage}</dd>
+                            <dt class="col-sm-3">Current Last Page:</dt>
+                            <dd class="col-sm-9">{this.currentLastPage}</dd>
+                            <dt class="col-sm-3">Records per page:</dt>
+                            <dd class="col-sm-9">{this.perPage()}</dd>
+                            <dt class="col-sm-3">Records in last page:</dt>
+                            <dd class="col-sm-9">{this.recordsInLastPage}</dd>
+                            <dt class="col-sm-3">Is first page:</dt>
+                            <dd class="col-sm-9">
+                                {this.isFirstPage ? "True" : "False"}
+                            </dd>
+                            <dt class="col-sm-3">Is last page:</dt>
+                            <dd class="col-sm-9">
+                                {this.isLastPage ? "True" : "False"}
+                            </dd>
+                        </dl>
+                        <h5 class="card-title">Blocks Information</h5>
+                        <dl class="row">
+                            <dt class="col-sm-3">Blocks:</dt>
+                            <dd class="col-sm-9">{this.blocks}</dd>
+                            <dt class="col-sm-3">Current Block:</dt>
+                            <dd class="col-sm-9">{this.currentBlock}</dd>
+                            <dt class="col-sm-3">Pages per Block:</dt>
+                            <dd class="col-sm-9">{this.perBlock()}</dd>
+                            <dt class="col-sm-3">Pages in last Block:</dt>
+                            <dd class="col-sm-9">{this.pagesInLastBlock}</dd>
+                            <dt class="col-sm-3">Is Last Block:</dt>
+                            <dd class="col-sm-9">
+                                {this.isLastBlock ? "True" : "False"}
+                            </dd>
+                            <dt class="col-sm-3">Has Multiple Blocks:</dt>
+                            <dd class="col-sm-9">
+                                {this.hasMultipleBlocks ? "True" : "False"}
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 
     renderNextPage() {
@@ -362,7 +464,8 @@ export class FazBsPagination extends FazBsElementItem {
     }
 
     show(): void {
-        render(() => <ul id={`faz-bs-pagination-${this.id}`} class={this.classNames}>
+        render(() =><div class="faz-pagination-container" id={this.id}>
+            <nav><ul id={`faz-bs-pagination-${this.id}`} class={this.classNames}>
             {this.renderFirstPage()}
             {this.renderPreviousBlock()}
             {this.renderPreviousPage()}
@@ -370,7 +473,7 @@ export class FazBsPagination extends FazBsElementItem {
             {this.hasMultiplePages ? this.renderNextPage() : ""}
             {this.hasMultipleBlocks ? this.renderNextBlock() : ""}
             {this.hasMultiplePages ? this.renderLastPage() : ""}
-        </ul>, this);
+            </ul></nav> {this.debug ? this.renderDebug() : ""}</div>, this);
     }
 }
 
