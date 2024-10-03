@@ -14,6 +14,4 @@
  * limitations under the License.
  */
 
-export const entryPoints =  [
-    { out: "css/faz", in: "stylesheets/faz.css"},
-]
+import "../../src/bs/breadcrumb/breadcrumb";

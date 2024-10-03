@@ -20,6 +20,17 @@ import { entryPoints } from "./entryPoints.mjs";
 import { copy } from "esbuild-plugin-copy";
 import { solidPlugin } from "esbuild-plugin-solid";
 
+entryPoints.push({ out: "alert-solid.bundle", in: "showcase/src/alert.ts" });
+entryPoints.push({ out: "badge-solid.bundle", in: "showcase/src/badge.ts" });
+entryPoints.push({ out: "breadcrumb-solid.bundle", in: "showcase/src/breadcrumb.ts" });
+entryPoints.push({ out: "nav-solid.bundle", in: "showcase/src/nav.ts" });
+entryPoints.push({ out: "navbar-solid.bundle", in: "showcase/src/navbar.tsx" });
+entryPoints.push({ out: "pagination-solid.bundle", in: "showcase/src/pagination.ts" });
+entryPoints.push({ out: "theme.bundle", in: "src/bs-theme.ts" });
+
+entryPoints.push({ out: "global.bundle", in: "showcase/src/global.ts" });
+entryPoints.push({ out: "css/showcase", in: "stylesheets/showcase.css"});
+
 let ctx = await context({
     entryPoints: entryPoints,
     bundle: true,

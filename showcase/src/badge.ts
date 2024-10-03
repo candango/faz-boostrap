@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../bs/breadcrumb/breadcrumb"
-import "../bs/nav/nav"
+import "../../src/bs/badge/badge";
+import "../../src/bs/breadcrumb/breadcrumb";

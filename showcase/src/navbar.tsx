@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../bs/nav/nav"
-import "../bs/navbar/navbar"
+import "../../src/bs/nav/nav"
+import "../../src/bs/navbar/navbar"
