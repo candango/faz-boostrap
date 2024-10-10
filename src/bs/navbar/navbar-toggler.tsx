@@ -19,21 +19,16 @@ import { render } from "solid-js/web"
 
 export class FazBsNavbarToggler extends FazBsElementItem {
 
-    constructor() {
-        super()
-    }
-
     get classNames() {
-        let classes = ["collapse navbar-collapse"]
-        this.setClasses(classes.join(" "))
-        return this.classes()
+        let classes = ["navbar-toggler"]
+        return classes.join(" ")
     }
 
     show() {
-        render(() => <button class="navbar-toggler"
+        render(() => <button class={this.classNames}
             id={`faz-bs-navbar-toggler-${this.id}`}
             data-bs-toggle="collapse"
-            data-bs-target={`#navbar-collapse-${this.target()}`}>    
+            data-bs-target={`#faz-bs-navbar-collapse-${this.target()}`}>    
         </button> , this)
     }
 }

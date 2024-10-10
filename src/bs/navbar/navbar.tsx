@@ -14,62 +14,47 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item"
-import { FazBsNavbarBrand } from "./navbar-brand"
-import { FazBsNavbarToggler } from "./navbar-toggler"
+import { FazBsElementItem } from "../../bs-item";
+import { FazBsNavbarBrand } from "./navbar-brand";
+import { FazBsNavbarToggler } from "./navbar-toggler";
+import { FazBsNavbarCollapse } from "./navbar-collapse";
+import { JSX } from "solid-js/jsx-runtime";
+import { render } from "solid-js/web";
 
  
-export default class FazBsNavbarElement extends FazBsElementItem {
+export default class FazBsNavbar extends FazBsElementItem {
 
     // private _class: string = ""
-    private navContainer: HTMLElement
-    private divContainer: HTMLDivElement
-
-    constructor() {
-        super()
-        this.navContainer = document.createElement("nav")
-        this.divContainer = document.createElement("div")
-
-        // for (let attribute of this.attributes) {
-        //     switch (attribute.name.toLowerCase()) {
-        //         case "classnames":
-        //             this._class = attribute.value
-        //             break
-        //     }
-        // }
-    }
+    private container: JSX.Element;
+    private nav: JSX.Element;
 
     get classNames() {
-        const classes = ["navbar"]
-        if (this.extraClasses) {
-            classes.push(this.extraClasses)
+        const classes = ["navbar"];
+        if (this.extraClasses()) {
+            classes.push(this.extraClasses());
         }
-        if (this.kind) {
-            classes.push(this.kind)
+        if (this.kind()) {
+            classes.push(this.kind() as string);
         }
-        return classes.join("")
+        return classes.join(" ");
     }
 
     get contentChild() {
-        return this.children[0].firstChild
+        return this.container as ChildNode;
     }
 
-    renderNav(element: HTMLElement) {
-        this.divContainer.setAttribute("class", "container-fluid")
-        this.divContainer.setAttribute("id", `div-container-${this.id}`)
-        element.appendChild(this.divContainer)
+    renderContainer(): JSX.Element {
+        this.container = <div id={`navbar-container-${this.id}`} class="container-fluid"></div>;
+        return this.container;
     }
 
     show() {
-        this.navContainer.setAttribute("class", "faz-bs-navbar-container")
-        this.navContainer.setAttribute("id", `nav-container-${this.id}`)
-        // this.navContainer.onmouseover = (e) => this.beOverMe(e)
-        // this.navContainer.onmouseleave = (e) => this.leaveMe(e)
-        this.appendChild(this.navContainer)
-        this.renderNav(this.navContainer)
+        this.nav = <nav id={`navbar-${this.id}`} class={this.classNames}>{this.renderContainer()}</nav>;
+        render(() => this.nav, this);
     }
 }
 
-customElements.define("faz-bs-navbar", FazBsNavbarElement)
-customElements.define("faz-bs-navbar-brand", FazBsNavbarBrand)
-customElements.define("faz-bs-navbar-toggler", FazBsNavbarToggler)
+customElements.define("faz-bs-navbar", FazBsNavbar);
+customElements.define("faz-bs-navbar-brand", FazBsNavbarBrand);
+customElements.define("faz-bs-navbar-toggler", FazBsNavbarToggler);
+customElements.define("faz-bs-navbar-collapse", FazBsNavbarCollapse);

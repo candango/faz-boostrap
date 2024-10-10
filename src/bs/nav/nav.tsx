@@ -22,11 +22,26 @@ import FazBsNavTabElement from "./nav-tab";
 import FazBsNavBar from "../navbar/navbar";
 import { FazElementItem, toBoolean } from "faz";
 import { Accessor, createSignal, Setter } from "solid-js";
-import { render } from "solid-js/web";
 import { JSX } from "solid-js/jsx-runtime";
+import { render } from "solid-js/web";
+import { FazBsNavbarCollapse } from "../navbar/navbar-collapse";
+
+type AriaAttributesRole =  "alert" | "alertdialog" | "application" | "article"
+    | "banner" | "button" | "cell" | "checkbox" | "columnheader" | "combobox"
+    | "complementary" | "contentinfo" | "definition" | "dialog" | "directory"
+    | "document" | "feed" | "figure" | "form" | "grid" | "gridcell" | "group"
+    | "heading" | "img" | "link" | "list" | "listbox" | "listitem" | "log"
+    | "main" | "marquee" | "math" | "menu" | "menubar" | "menuitem"
+    | "menuitemcheckbox" | "menuitemradio" | "meter" | "navigation" | "none"
+    | "note" | "option" | "presentation" | "progressbar" | "radio"
+    | "radiogroup" | "region" | "row" | "rowgroup" | "rowheader" | "scrollbar"
+    | "search" | "searchbox" | "separator" | "slider" | "spinbutton" | "status"
+    | "switch" | "tab" | "table" | "tablist" | "tabpanel" | "term" | "textbox"
+    | "timer" | "toolbar" | "tooltip" | "tree" | "treegrid" | "treeitem"
+    | undefined;
 
  
-export default class FazBsNavElement extends FazBsElementItem {
+export default class FazBsNav extends FazBsElementItem {
 
     public fill: Accessor<boolean>;
     public setFill: Setter<boolean>;
@@ -38,8 +53,8 @@ export default class FazBsNavElement extends FazBsElementItem {
     public setVertical: Setter<boolean>;
     private _tabClasses: string = "";
    
-    private navContainer: JSX.Element;
-    private navUl: JSX.Element;
+    private outerContainer: JSX.Element;
+    private tabList: JSX.Element;
     private tabContainer: JSX.Element;
 
     public current: FazBsNavItemElement | undefined;
@@ -82,24 +97,29 @@ export default class FazBsNavElement extends FazBsElementItem {
     }
 
     get contentChild() {
-        return this.navUl as ChildNode;
+        return this.tabList as ChildNode;
     }
 
     get tabContentChild() {
         return this.tabContainer as ChildNode;
     }
 
+    get navListRole(): AriaAttributesRole {
+        if (this.insideNavbar || this.insideNavbarCollapse) {
+            return undefined;
+        }
+        return "tablist"
+    }
+
     get classNames() {
-        const classes = [ "nav" ];
-        if (this.parent instanceof FazBsNavBar) {
-            classes[0] = "navbar-nav";
-        }
-        if (this.parent() instanceof FazBsCollapse &&
-            this.parent()?.parent() as unknown as FazElementItem instanceof FazBsNavBar) {
-            classes[0] = "navbar-nav";
-        }
+        const baseClass = this.insideNavbar || this.insideNavbarCollapse ? "navbar-nav" : "nav";
+        const classes = [ baseClass ];
         if (this.disabled()) {
             classes.push("disabled");
+        }
+        if (this.extraClasses()) {
+            console.log(this.extraClasses());
+            classes.push(this.extraClasses());
         }
         if (this.pills()) {
             classes.push("nav-pills");
@@ -121,6 +141,28 @@ export default class FazBsNavElement extends FazBsElementItem {
             classes.push("flex-column");
         }  
         return classes.join(" ");
+    }
+
+    get insideNavbarCollapse(): boolean {
+        const parent =  this.parent();
+        if (!parent) {
+            return false;
+        }
+        if (!(parent instanceof FazBsNavbarCollapse)) {
+            return false;
+        }
+        return true;
+    }
+
+    get insideNavbar(): boolean {
+        const parent =  this.parent();
+        if (!parent) {
+            return false;
+        }
+        if (!(parent instanceof FazBsNavBar)) {
+            return false;
+        }
+        return true;
     }
 
     get hasTabs() {
@@ -147,8 +189,19 @@ export default class FazBsNavElement extends FazBsElementItem {
         return false;
     }
 
-    get navClassNames() {
-        const classes = ["faz-nav-container"];
+    get outerContainerId() {
+        if (this.insideNavbar) {
+            return `faz-bs-navbar-collapse-${this.id}`;
+        }
+        return `faz-bs-nav-container-${this.id}`;
+    }
+
+    get outerContainerClassNames() {
+        const classes = [];
+        if (this.insideNavbar) {
+            classes.push("collapse");
+            classes.push("navbar-collapse");
+        }
         if (this.hasTabs && this.vertical()) {
             classes.push("d-flex");
             classes.push("align-items-start");
@@ -176,7 +229,7 @@ export default class FazBsNavElement extends FazBsElementItem {
                 (this.tabContainer as HTMLElement).appendChild(node);
                 return node;
             }
-            this.children[0].children[0].firstChild?.appendChild(node);
+            (this.tabList as HTMLElement).appendChild(node);
             return node;
         }
         if (node instanceof FazBsNavTabElement) {
@@ -187,11 +240,11 @@ export default class FazBsNavElement extends FazBsElementItem {
         return node ;
     }
 
-    beOverMe(fazNav: FazBsNavElement, _: Event) {
+    beOverMe(fazNav: FazBsNav, _: Event) {
         clearTimeout(fazNav.timeout);
     }
 
-    leaveMe(fazNav: FazBsNavElement, _: Event) {
+    leaveMe(fazNav: FazBsNav, _: Event) {
         clearTimeout(fazNav.timeout);
         fazNav.timeout = setTimeout(() => {
             fazNav.activeItems.forEach(item => {
@@ -203,9 +256,11 @@ export default class FazBsNavElement extends FazBsElementItem {
         }, 250);
     }
 
-    renderNav() {
-        this.navUl = <ul id={`nav${this.id}`} class={this.classNames} role="tablist"></ul>;
-        return this.navUl;
+    renderTabList() {
+        this.tabList = <div id={`faz-bs-nav-${this.id}`} class={this.classNames}
+            role={this.navListRole} onmouseover={[this.beOverMe, this]}
+            onmouseleave={[this.leaveMe, this]}></div>;
+        return this.tabList;
     }
 
     renderTabs() {
@@ -216,13 +271,15 @@ export default class FazBsNavElement extends FazBsElementItem {
     }
 
     show() {
-        this.navContainer = <div
-            id={`nav-container${this.id}`}
-            class={this.navClassNames}
-            onmouseover={[this.beOverMe, this]}
-            onmouseleave={[this.leaveMe, this]}
-        >{this.renderNav()}{this.renderTabs()}</div>;
-        render(() => this.navContainer, this);
+        if (this.insideNavbarCollapse) {
+            render(() => this.renderTabList(), this);
+            return
+        }
+        this.outerContainer = <div
+            id={this.outerContainerId}
+            class={this.outerContainerClassNames}
+        >{this.renderTabList()}{this.renderTabs()}</div>;
+        render(() => this.outerContainer, this);
     }
 
     placeBackChildren(children:Node[]) {
@@ -236,7 +293,7 @@ export default class FazBsNavElement extends FazBsElementItem {
     }
 }
 
-customElements.define("faz-bs-nav", FazBsNavElement);
+customElements.define("faz-bs-nav", FazBsNav);
 customElements.define("faz-bs-nav-item", FazBsNavItemElement);
 customElements.define("faz-bs-nav-tab", FazBsNavTabElement);
 customElements.define("faz-bs-nav-item-content", FazBsNavItemContentElement);

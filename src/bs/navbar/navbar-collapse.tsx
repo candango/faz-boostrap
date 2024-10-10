@@ -18,32 +18,26 @@ import { FazBsElementItem } from "../../bs-item";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
+ 
+export class FazBsNavbarCollapse extends FazBsElementItem {
 
-export class FazBsBadge extends FazBsElementItem {
-
-    private badgeItem: JSX.Element;
+    private collapse: JSX.Element;
 
     get classNames() {
-        let classes = ["badge"];
+        const classes = ["collapse navbar-collapse"];
         if (this.extraClasses()) {
             classes.push(this.extraClasses());
         }
-        if (this.kind()) {
-            classes.push(`text-bg-${this.kind()}`);
-        }
-        return classes.join(" ");
+        return classes.join("");
     }
 
-    renderBadge(): JSX.Element {
-        this.badgeItem = this.linkIsVoid ?
-            <span id={`faz-bs-badge-${this.id}`} class={this.classNames}></span> :
-            <a id={`faz-bs-badge-${this.id}`} href={this.link()} class={this.classNames}></a>;
-        return this.badgeItem;
+    get contentChild() {
+        return this.collapse as ChildNode;
     }
+
 
     show() {
-        render(() => this.renderBadge(), this);
+        this.collapse = <div id={`faz-bs-navbar-collapse-${this.id}`} class={this.classNames}></div>;
+        render(() => this.collapse, this);
     }
 }
-
-customElements.define("faz-bs-badge", FazBsBadge);

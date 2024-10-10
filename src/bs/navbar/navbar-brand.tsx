@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz"
-
+import { FazElementItem } from "faz/src"
+import { JSX } from "solid-js/jsx-runtime"
+import { render } from "solid-js/web";
  
 export class FazBsNavbarBrand extends FazElementItem {
 
-    private elBrand: HTMLElement
+    private brand: JSX.Element;
 
     constructor() {
         super()
-        if (this.linkIsVoid) {
-            this.elBrand = document.createElement("span")
-        } else {
-            this.elBrand = document.createElement("a")
-        }
     }
 
     get classNames() {
@@ -39,9 +35,15 @@ export class FazBsNavbarBrand extends FazElementItem {
         return classes.join(" ")
     }
 
+    renderBrand(): JSX.Element {
+        this.brand = <a id={`faz-bs-navbar-brand-${this.id}`} class={this.className}></a>;
+        if (this.linkIsVoid) {
+            this.brand = <span id={`faz-bs-navbar-brand-${this.id}`} class={this.className}></span>;
+        }
+        return this.brand;
+    }
+
     show() {
-        this.elBrand.setAttribute("class", this.classNames)
-        this.elBrand.setAttribute("id", `navbar-brand-${this.id}`)
-        this.appendChild(this.elBrand)
+        render(() => this.renderBrand(), this);
     }
 }

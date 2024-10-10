@@ -36,6 +36,10 @@ export class FazBsElementItem extends FazElementItem {
 
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
+                case "extraclasses":
+                case "extra-classes":
+                    this.setExtraClasses(attribute.value);
+                    break;
                 case "kind":
                     this.setKind(attribute.value.toLowerCase());
                     break;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import FazBsNavElement from "./nav";
+import FazBsNav from "./nav";
 import { FazBsElementItem } from "../../bs-item";
 import { toBoolean } from "faz";
 import { Accessor, createSignal, Setter } from "solid-js";
@@ -22,7 +22,7 @@ import { render } from "solid-js/web";
 import { JSX } from "solid-js/jsx-runtime";
 
 
-export default class FazBsNavTabElement extends FazBsElementItem {
+export default class FazBsNavTab extends FazBsElementItem {
 
     public fade: Accessor<boolean>;
     public setFade: Setter<boolean>;
@@ -80,7 +80,7 @@ export default class FazBsNavTabElement extends FazBsElementItem {
             role="tabpanel"
             aria-labelledby={this.ariaLabelledby}
         ></div>;
-        const parent = this.parent() as unknown as FazBsNavElement;
+        const parent = this.parent() as unknown as FazBsNav;
         render(() => this.navTabContainer, parent.tabContentChild);
     }
 }

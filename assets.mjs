@@ -44,5 +44,9 @@ export const assets = {
             from: "node_modules/@popperjs/core/dist/umd/popper.min.js.map",
             to: "vendor/popper.min.js.map",
         },
+        {
+            from: "img/faz_square.png",
+            to: "img/faz_square.png",
+        },
     ]
 }
