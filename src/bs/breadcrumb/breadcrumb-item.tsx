@@ -102,7 +102,6 @@ export class FazBsBreadcrumbItem extends FazBsElementItem {
                aria-label="breadcrumb">
                {this.itemA}{this.itemSpam}
                </li>;
-        render(() => this.itemLi, this.parentElement as MountableElement);
-        this.classList.add("faz-bs-breadcrumb-item-rendered");
+        render(() => this.itemLi, this);
     }
 }
