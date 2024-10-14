@@ -22,7 +22,7 @@ import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
  
-export default class FazBsNavbar extends FazBsElementItem {
+export class FazBsNavbar extends FazBsElementItem {
 
     // private _class: string = ""
     private container: JSX.Element;

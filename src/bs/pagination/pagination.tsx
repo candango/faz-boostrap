@@ -15,7 +15,6 @@
  */
 
 import { FazBsElementItem } from "../../bs-item";
-import { toBoolean } from "faz/src/values";
 import { Accessor, createSignal, JSX, Setter } from "solid-js";
 import { render } from "solid-js/web";
 
@@ -57,10 +56,6 @@ export class FazBsPagination extends FazBsElementItem {
             switch (attribute.name.toLowerCase()) {
                 case "count":
                     this.setCount(parseInt(attribute.value));
-                    break;
-                case "debug":
-                    // TODO: this should be reactive and implemented at FazElementItem
-                    this.debug = toBoolean(attribute.value);
                     break;
                 case "page":
                     this.setCount(parseInt(attribute.value));
@@ -473,7 +468,7 @@ export class FazBsPagination extends FazBsElementItem {
             {this.hasMultiplePages ? this.renderNextPage() : ""}
             {this.hasMultipleBlocks ? this.renderNextBlock() : ""}
             {this.hasMultiplePages ? this.renderLastPage() : ""}
-            </ul></nav> {this.debug ? this.renderDebug() : ""}</div>, this);
+            </ul></nav> {this.debug() ? this.renderDebug() : ""}</div>, this);
     }
 }
 

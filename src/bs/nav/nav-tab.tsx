@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import FazBsNav from "./nav";
+import { FazBsNav } from "./nav";
 import { FazBsElementItem } from "../../bs-item";
 import { toBoolean } from "faz";
 import { Accessor, createSignal, Setter } from "solid-js";
@@ -22,7 +22,7 @@ import { render } from "solid-js/web";
 import { JSX } from "solid-js/jsx-runtime";
 
 
-export default class FazBsNavTab extends FazBsElementItem {
+export class FazBsNavTab extends FazBsElementItem {
 
     public fade: Accessor<boolean>;
     public setFade: Setter<boolean>;

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import FazBsNav from "./nav";
+import { FazBsNav } from "./nav";
 import { FazBsElementItem } from "../../bs-item";
 import { Accessor, createSignal, JSX, Setter } from "solid-js";
 import { MountableElement, render } from "solid-js/web";
 
 
-export default class FazBsNavItem extends FazBsElementItem {
+export class FazBsNavItem extends FazBsElementItem {
 
 
     public linkClasses: Accessor<string>;

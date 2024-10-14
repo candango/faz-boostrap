@@ -35,9 +35,11 @@ export class FazBsBadge extends FazBsElementItem {
     }
 
     renderBadge(): JSX.Element {
-        this.badgeItem = this.linkIsVoid ?
-            <span id={`faz-bs-badge-${this.id}`} class={this.classNames}></span> :
-            <a id={`faz-bs-badge-${this.id}`} href={this.link()} class={this.classNames}></a>;
+        if (this.linkIsVoid) {
+            this.badgeItem = <span id={`faz-bs-badge-${this.id}`} class={this.classNames}></span>;
+            return this.badgeItem;
+        }
+        this.badgeItem = <a id={`faz-bs-badge-${this.id}`} href={this.link()} class={this.classNames}></a>;
         return this.badgeItem;
     }
 

@@ -29,6 +29,7 @@ window.codemirrorit = function (id: string) {
     const codemirrorDiv = document.createElement("div");
     codemirrorDiv.classList.add("mt-3");
     referenceNode.after(codemirrorDiv);
+    const originalHtml = referenceNode.innerHTML;
 
     let theme = EditorView.theme({
         "&": {
@@ -51,11 +52,14 @@ window.codemirrorit = function (id: string) {
         }
     }, { dark: true });
 
+    window.addEventListener("load", () => {
+
     new EditorView({
-        doc: referenceNode.innerHTML,
+        doc: originalHtml,
         extensions: [
              html(),theme, syntaxHighlighting(defaultHighlightStyle)
         ],
         parent: codemirrorDiv,
+    });
     });
 }

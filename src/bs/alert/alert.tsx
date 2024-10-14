@@ -15,10 +15,13 @@
  */
 
 import { FazBsElementItem } from "../../bs-item";
+import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
 
 export class FazBsAlert extends FazBsElementItem {
+
+    private alertItem: JSX.Element;
 
     constructor() {
         super();
@@ -39,10 +42,8 @@ export class FazBsAlert extends FazBsElementItem {
     }
 
     show() {
-        render(() => <div role="alert"
-               id={`faz-bs-alert-${this.id}`}
-               class={this.classNames}></div>, this);
-        this.classList.add("faz-bs-alert-rendered");
+        this.alertItem = <div role="alert" id={`faz-bs-alert-${this.id}`} class={this.classNames}></div>;
+        render(() => this.alertItem, this);
     }
 }
 

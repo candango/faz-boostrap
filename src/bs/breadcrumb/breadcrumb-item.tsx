@@ -15,9 +15,9 @@
  */
 
 import { FazBsElementItem } from "../../bs-item";
-import { MountableElement, render } from "solid-js/web";
-import { JSX } from "solid-js/jsx-runtime";
 import { createEffect } from "solid-js";
+import { JSX } from "solid-js/jsx-runtime";
+import { render } from "solid-js/web";
 
 
 export class FazBsBreadcrumbItem extends FazBsElementItem {
@@ -25,10 +25,6 @@ export class FazBsBreadcrumbItem extends FazBsElementItem {
     private itemLi: JSX.Element;
     private itemA: JSX.Element;
     private itemSpam: JSX.Element;
-
-    constructor() {
-        super();
-    }
 
     get aClassNames() {
         let classes = [];
@@ -77,19 +73,21 @@ export class FazBsBreadcrumbItem extends FazBsElementItem {
     }
 
     afterShow(): void {
-        createEffect(() => {
-            let itemOrig = this.itemSpam as ChildNode;
-            let itemTarget = this.itemA as ChildNode;
-            if (this.linkIsVoid) {
-                itemOrig = this.itemA as ChildNode;
-                itemTarget = this.itemSpam as ChildNode;
-            }
-            if (itemOrig.firstChild != null) {
-                while(itemOrig.firstChild) {
-                    itemTarget.appendChild(itemOrig.firstChild);
+        createEffect((orig) => {
+            if (orig != this.link()){
+                let itemOrig = this.itemSpam as ChildNode;
+                let itemTarget = this.itemA as ChildNode;
+                if (this.linkIsVoid) {
+                    itemOrig = this.itemA as ChildNode;
+                    itemTarget = this.itemSpam as ChildNode;
+                }
+                if (itemOrig.firstChild != null) {
+                    while(itemOrig.firstChild) {
+                        itemTarget.appendChild(itemOrig.firstChild);
+                    }
                 }
             }
-        });
+        }, this.link());
     }
 
     show() {
