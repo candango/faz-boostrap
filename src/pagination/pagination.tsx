@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
 import { Accessor, createSignal, JSX, Setter } from "solid-js";
 import { render } from "solid-js/web";
 

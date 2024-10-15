@@ -14,21 +14,11 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item"
-import { render } from "solid-js/web"
+export { FazBsElementItem } from "./bs-item";
 
-export class FazBsNavbarToggler extends FazBsElementItem {
+export { FazBsAlert } from "./alert/alert";
 
-    get classNames() {
-        let classes = ["navbar-toggler"]
-        return classes.join(" ")
-    }
+export { FazBsBadge } from "./badge/badge";
 
-    show() {
-        render(() => <button class={this.classNames}
-            id={`faz-bs-navbar-toggler-${this.id}`}
-            data-bs-toggle="collapse"
-            data-bs-target={`#faz-bs-navbar-collapse-${this.target()}`}>    
-        </button> , this)
-    }
-}
+export { FazBsBreadcrumb } from "./breadcrumb/breadcrumb";
+export { FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb-item";

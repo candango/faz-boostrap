@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
 import { FazBsGridCol } from "./grid-col";
 import { FazBsGridHead } from "./grid-head";
 import { FazBsGridRow } from "./grid-row";

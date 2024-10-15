@@ -14,38 +14,36 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
 
-export class FazBsBadge extends FazBsElementItem {
+export class FazBsGridHead extends FazBsElementItem {
 
-    private badgeItem: JSX.Element;
+    private headItem: JSX.Element;
+
+    constructor() {
+        super();
+        for (let attribute of this.attributes) {
+            switch (attribute.name.toLowerCase()) {
+                case "extraclasses":
+                    this.setExtraClasses(attribute.value);
+                    break;
+            }
+        }
+    }
 
     get classNames() {
-        let classes = ["badge"];
+        let classes = [""];
         if (this.extraClasses()) {
             classes.push(this.extraClasses());
-        }
-        if (this.kind()) {
-            classes.push(`text-bg-${this.kind()}`);
         }
         return classes.join(" ");
     }
 
-    renderBadge(): JSX.Element {
-        if (this.linkIsVoid) {
-            this.badgeItem = <span id={`faz-bs-badge-${this.id}`} class={this.classNames}></span>;
-            return this.badgeItem;
-        }
-        this.badgeItem = <a id={`faz-bs-badge-${this.id}`} href={this.link()} class={this.classNames}></a>;
-        return this.badgeItem;
-    }
-
     show() {
-        render(() => this.renderBadge(), this);
+        this.headItem = <thead id={`faz-bs-head-${this.id}`} class={this.classNames}></thead>;
+        render(() => this.headItem, this);
     }
 }
-
-customElements.define("faz-bs-badge", FazBsBadge);

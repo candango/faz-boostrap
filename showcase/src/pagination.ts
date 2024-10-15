@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../../src/bs/pagination/pagination";
-import "../../src/bs/breadcrumb/breadcrumb";
+import "../../src/pagination/pagination";
+import "../../src/breadcrumb/breadcrumb";

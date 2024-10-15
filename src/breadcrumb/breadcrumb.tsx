@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
 import { FazBsBreadcrumbItem } from "./breadcrumb-item";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";

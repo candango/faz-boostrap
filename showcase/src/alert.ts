@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../../src/bs/alert/alert";
-import "../../src/bs/breadcrumb/breadcrumb";
+import "../../src/alert/alert";
+import "../../src/breadcrumb/breadcrumb";

@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import "../../src/bs/nav/nav";
-import "../../src/bs/navbar/navbar";
-import "../../src/bs/breadcrumb/breadcrumb";
+import "../../src/nav/nav";
+import "../../src/navbar/navbar";
+import "../../src/breadcrumb/breadcrumb";

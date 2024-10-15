@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-import "../../src/bs/breadcrumb/breadcrumb";
+import "../../src/breadcrumb/breadcrumb";

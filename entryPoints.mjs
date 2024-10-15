@@ -15,5 +15,6 @@
  */
 
 export const entryPoints =  [
+    { out: "js/index", in: "src/index.ts" },
     { out: "css/faz", in: "stylesheets/faz.css"},
 ]

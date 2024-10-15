@@ -15,7 +15,7 @@
  */
 
 import { FazBsNav } from "./nav";
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
 import { Accessor, createSignal, JSX, Setter } from "solid-js";
 import { MountableElement, render } from "solid-js/web";
 

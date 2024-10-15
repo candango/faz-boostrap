@@ -14,37 +14,45 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
+import { FazBsGridRow } from "./grid-row";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
 
-export class FazBsAlert extends FazBsElementItem {
+export class FazBsGridCol extends FazBsElementItem {
 
-    private alertItem: JSX.Element;
+    private colItem: JSX.Element;
 
     constructor() {
         super();
-        if (this.kind() === undefined) {
-            this.setKind("primary");
+        for (let attribute of this.attributes) {
+            switch (attribute.name.toLowerCase()) {
+                case "extraclasses":
+                    this.setExtraClasses(attribute.value);
+                    break;
+            }
         }
     }
 
     get classNames() {
-        let classes = ["alert"];
+        let classes = [""];
         if (this.extraClasses()) {
             classes.push(this.extraClasses());
-        }
-        if (this.kind()) {
-            classes.push(`alert-${this.kind()}`);
         }
         return classes.join(" ");
     }
 
-    show() {
-        this.alertItem = <div role="alert" id={`faz-bs-alert-${this.id}`} class={this.classNames}></div>;
-        render(() => this.alertItem, this);
+    renderCol(): JSX.Element {
+        if ((this.parent() as FazBsGridRow)?.isHead) {
+            this.colItem = <th id={`faz-bs-col-${this.id}`} class={this.classNames}></th>;
+            return this.colItem;
+        }
+        this.colItem = <td id={`faz-bs-row-${this.id}`} class={this.classNames}></td>;
+        return this.colItem;
+    }
+
+    show(): void {
+        render(() => this.renderCol(), this);
     }
 }
-
-customElements.define("faz-bs-alert", FazBsAlert);

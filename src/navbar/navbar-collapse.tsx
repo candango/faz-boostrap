@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item"
+import { FazBsElementItem } from "../bs-item";
+import { JSX } from "solid-js/jsx-runtime";
+import { render } from "solid-js/web";
 
-export class FazBsCollapse extends FazBsElementItem {
+ 
+export class FazBsNavbarCollapse extends FazBsElementItem {
 
-    public divCollapse: HTMLDivElement
-
-    constructor() {
-        super()
-        this.divCollapse = document.createElement("div")
-    }
+    private collapse: JSX.Element;
 
     get classNames() {
-        let classes = ["collapse"]
-        if (this.parent?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
-            classes.push("navbar-collapse")
+        const classes = ["collapse navbar-collapse"];
+        if (this.extraClasses()) {
+            classes.push(this.extraClasses());
         }
-        return classes.join(" ")
+        return classes.join("");
     }
+
+    get contentChild() {
+        return this.collapse as ChildNode;
+    }
+
 
     show() {
-        this.divCollapse.setAttribute("class", this.classNames)
-        this.divCollapse.setAttribute("id", this.id)
-        this.appendChild(this.divCollapse)
+        this.collapse = <div id={`faz-bs-navbar-collapse-${this.id}`} class={this.classNames}></div>;
+        render(() => this.collapse, this);
     }
 }
-
-customElements.define("faz-bs-collapse", FazBsCollapse)

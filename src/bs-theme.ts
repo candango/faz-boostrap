@@ -7,7 +7,6 @@
  */
 
 // See: https://stackoverflow.com/a/59499895/2887989
-export {}
 
 import { Accessor, createSignal, createEffect, Setter } from "solid-js";
 

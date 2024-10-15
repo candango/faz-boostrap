@@ -15,7 +15,7 @@
  */
 
 import { FazBsNav } from "./nav";
-import { FazBsElementItem } from "../../bs-item";
+import { FazBsElementItem } from "../bs-item";
 import { toBoolean } from "faz";
 import { Accessor, createSignal, Setter } from "solid-js";
 import { render } from "solid-js/web";

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../../bs-item";
-import { FazBsGridRow } from "./grid-row";
+import { FazBsElementItem } from "../bs-item";
+import { FazBsGridHead } from "./grid-head";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
 
-export class FazBsGridCol extends FazBsElementItem {
+export class FazBsGridRow extends FazBsElementItem {
 
-    private colItem: JSX.Element;
+    private rowItem: JSX.Element;
 
     constructor() {
         super();
@@ -35,6 +35,13 @@ export class FazBsGridCol extends FazBsElementItem {
         }
     }
 
+    get isHead() {
+        if (!(this.parent() instanceof FazBsGridHead)) {
+            return true;
+        }
+        return true;
+    }
+
     get classNames() {
         let classes = [""];
         if (this.extraClasses()) {
@@ -43,16 +50,8 @@ export class FazBsGridCol extends FazBsElementItem {
         return classes.join(" ");
     }
 
-    renderCol(): JSX.Element {
-        if ((this.parent() as FazBsGridRow)?.isHead) {
-            this.colItem = <th id={`faz-bs-col-${this.id}`} class={this.classNames}></th>;
-            return this.colItem;
-        }
-        this.colItem = <td id={`faz-bs-row-${this.id}`} class={this.classNames}></td>;
-        return this.colItem;
-    }
-
-    show(): void {
-        render(() => this.renderCol(), this);
+    show() {
+        this.rowItem = <tr id={`faz-bs-row-${this.id}`} class={this.classNames} ></tr>;
+        render(() => this.rowItem, this);
     }
 }

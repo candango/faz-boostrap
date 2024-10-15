@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../../src/bs/grid/grid";
-import "../../src/bs/breadcrumb/breadcrumb";
+import "../../src/grid/grid";
+import "../../src/breadcrumb/breadcrumb";
