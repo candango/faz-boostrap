@@ -1,0 +1,1 @@
+{"version":3,"file":"navbar-brand.d.ts","sourceRoot":"","sources":["../../src/navbar/navbar-brand.tsx"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;GAcG;AAEH,OAAO,EAAE,cAAc,EAAE,MAAM,SAAS,CAAA;AACxC,OAAO,EAAE,GAAG,EAAE,MAAM,sBAAsB,CAAA;AAG1C,qBAAa,gBAAiB,SAAQ,cAAc;IAEhD,OAAO,CAAC,KAAK,CAAc;;IAM3B,IAAI,UAAU,WAOb;IAED,WAAW,IAAI,GAAG,CAAC,OAAO;IAQ1B,IAAI;CAGP"}

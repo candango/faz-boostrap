@@ -27,7 +27,7 @@ export class FazBsCollapse extends FazBsElementItem {
 
     get classNames() {
         let classes = ["collapse"]
-        if (this.parent?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
+        if (this.parent()?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
             classes.push("navbar-collapse")
         }
         return classes.join(" ")

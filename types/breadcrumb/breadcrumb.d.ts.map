@@ -1,0 +1,1 @@
+{"version":3,"file":"breadcrumb.d.ts","sourceRoot":"","sources":["../../src/breadcrumb/breadcrumb.tsx"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;GAcG;AAEH,OAAO,EAAE,gBAAgB,EAAE,MAAM,YAAY,CAAC;AAM9C,qBAAa,eAAgB,SAAQ,gBAAgB;IAEjD,OAAO,CAAC,MAAM,CAAc;IAE5B,IAAI,UAAU,WAGb;IAED,IAAI,YAAY,IACU,SAAS,CAClC;IAED,IAAI;CAQP;AAED,OAAO,EAAE,mBAAmB,EAAE,MAAM,mBAAmB,CAAC"}
