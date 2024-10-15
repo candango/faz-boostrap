@@ -54,6 +54,10 @@ export class FazBsNavbar extends FazBsElementItem {
     }
 }
 
+export { FazBsNavbarBrand } from "./navbar-brand";
+export { FazBsNavbarToggler } from "./navbar-toggler";
+export { FazBsNavbarCollapse } from "./navbar-collapse";
+
 customElements.define("faz-bs-navbar", FazBsNavbar);
 customElements.define("faz-bs-navbar-brand", FazBsNavbarBrand);
 customElements.define("faz-bs-navbar-toggler", FazBsNavbarToggler);

@@ -43,5 +43,7 @@ export class FazBsBreadcrumb extends FazBsElementItem {
     }
 }
 
+export { FazBsBreadcrumbItem } from "./breadcrumb-item";
+
 customElements.define("faz-bs-breadcrumb", FazBsBreadcrumb);
 customElements.define("faz-bs-breadcrumb-item", FazBsBreadcrumbItem);

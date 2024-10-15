@@ -293,6 +293,10 @@ export class FazBsNav extends FazBsElementItem {
     }
 }
 
+export { FazBsNavItem } from "./nav-item";
+export { FazBsNavItemContent } from "./nav-item-content";
+export { FazBsNavTab } from "./nav-tab";
+
 customElements.define("faz-bs-nav", FazBsNav);
 customElements.define("faz-bs-nav-item", FazBsNavItem);
 customElements.define("faz-bs-nav-tab", FazBsNavTab);

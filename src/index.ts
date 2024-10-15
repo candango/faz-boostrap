@@ -20,5 +20,12 @@ export { FazBsAlert } from "./alert/alert";
 
 export { FazBsBadge } from "./badge/badge";
 
-export { FazBsBreadcrumb } from "./breadcrumb/breadcrumb";
-export { FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb-item";
+export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
+
+export {
+    FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab
+} from "./nav/nav";
+
+export {
+    FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse
+} from "./navbar/navbar";

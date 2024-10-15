@@ -16,5 +16,11 @@
 
 export const entryPoints =  [
     { out: "js/index", in: "src/index.ts" },
-    { out: "css/faz", in: "stylesheets/faz.css"},
+    { out: "js/alert", in: "src/alert/alert.tsx" },
+    { out: "js/badge", in: "src/badge/badge.tsx" },
+    { out: "js/breadcrumb", in: "src/breadcrumb/breadcrumb.tsx" },
+    { out: "js/nav", in: "src/nav/nav.tsx" },
+    { out: "js/navbar", in: "src/navbar/navbar.tsx" },
+    { out: "js/pagination", in: "src/pagination/pagination.tsx" },
+    { out: "css/faz-bs", in: "stylesheets/faz.css"},
 ]
