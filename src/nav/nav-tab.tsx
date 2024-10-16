@@ -45,9 +45,9 @@ export class FazBsNavTab extends FazBsElementItem {
 
     get ariaLabelledby() {
         let labelledby = "";
-        this.parent()?.items().forEach((item) => {
-            if (this.id === item.link()) {
-                labelledby = item.id;
+        this.parent()?.fazChildren().forEach((child) => {
+            if (this.id === child.link()) {
+                labelledby = child.id;
                 return;
             }
         });

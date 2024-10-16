@@ -89,8 +89,8 @@ export class FazBsNav extends FazBsElementItem {
 
     get activeNavItem() {
         let active: FazBsNavItem | null = null;
-        this.navItemItemsActive.forEach(item => {
-            active = item as FazBsNavItem;
+        this.navItemChildrenActive.forEach(child => {
+            active = child as FazBsNavItem;
             return active;
         })
         return active;
@@ -118,7 +118,6 @@ export class FazBsNav extends FazBsElementItem {
             classes.push("disabled");
         }
         if (this.extraClasses()) {
-            console.log(this.extraClasses());
             classes.push(this.extraClasses());
         }
         if (this.pills()) {
@@ -166,19 +165,19 @@ export class FazBsNav extends FazBsElementItem {
     }
 
     get hasTabs() {
-        return this.tabItems.length > 0;
+        return this.tabChildren.length > 0;
     }
 
-    get navItemItems() {
-        return this.items().filter(item => {
-            return item instanceof FazBsNavItem;
+    get navItemChildren() {
+        return this.fazChildren().filter(child => {
+            return child instanceof FazBsNavItem;
         })
     }
 
-    get navItemItemsActive() {
-        const items = this.items();
-        return items.filter(item => {
-            return item instanceof FazBsNavItem && item.active;
+    get navItemChildrenActive() {
+        const children = this.fazChildren();
+        return children.filter(child => {
+            return child instanceof FazBsNavItem && child.active;
         })
     }
 
@@ -217,9 +216,9 @@ export class FazBsNav extends FazBsElementItem {
         return classes.join(" ");
     }
 
-    get tabItems() {
-        return this.items().filter(item => {
-            return item instanceof FazBsNavTab;
+    get tabChildren() {
+        return this.fazChildren().filter(child => {
+            return child instanceof FazBsNavTab;
         })
     }
 
@@ -247,8 +246,8 @@ export class FazBsNav extends FazBsElementItem {
     leaveMe(fazNav: FazBsNav, _: Event) {
         clearTimeout(fazNav.timeout);
         fazNav.timeout = setTimeout(() => {
-            fazNav.activeItems.forEach(item => {
-                const navItem = item as FazBsNavItem;
+            fazNav.activeFazChildren.forEach(child => {
+                const navItem = child as FazBsNavItem;
                 if (navItem.isDropdown && !fazNav.onEdge) {
                     navItem.deactivate();
                 }
@@ -286,9 +285,9 @@ export class FazBsNav extends FazBsElementItem {
         super.placeBackChildren(children);
         if (this.loading() && this.hasTabs) {
             if (this.activeNavItem === null) {
-                (this.navItemItems[0] as FazBsNavItem).setActive(true);
+                (this.navItemChildren[0] as FazBsNavItem).setActive(true);
             }
-            (this.navItemItemsActive[0] as FazBsNavItem).activate();
+            (this.navItemChildrenActive[0] as FazBsNavItem).activate();
         }
     }
 }

@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz/src"
-import { JSX } from "solid-js/jsx-runtime"
+import { FazElementItem } from "faz/src";
+import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
  
 export class FazBsNavbarBrand extends FazElementItem {
 
     private brand: JSX.Element;
 
-    constructor() {
-        super()
-    }
-
     get classNames() {
-        let classes = ["navbar-brand"]
+        let classes = ["navbar-brand"];
         if (this.linkIsVoid) {
-            classes.push("mb-0")
-            classes.push("h1")
+            classes.push("mb-0");
+            classes.push("h1");
         }
-        return classes.join(" ")
+        return classes.join(" ");
     }
 
     renderBrand(): JSX.Element {

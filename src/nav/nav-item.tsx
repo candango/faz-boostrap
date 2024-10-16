@@ -30,14 +30,14 @@ export class FazBsNavItem extends FazBsElementItem {
     private navItemLink: JSX.Element;
     private navItemUl: JSX.Element;
 
-    public previousItem: FazBsNavItem | null = null;
+    public previousChild: FazBsNavItem | null = null;
 
     constructor() {
         super();
 
         [this.linkClasses, this.setLinkClasses] = createSignal<string>("");
 
-        this.previousItem = null;
+        this.previousChild = null;
     }
 
     get contentChild() {
@@ -57,7 +57,7 @@ export class FazBsNavItem extends FazBsElementItem {
     }
 
     get isDropdown() {
-        return this.items().length > 0;
+        return this.fazChildren().length > 0;
     }
 
     get classNames() {
@@ -137,9 +137,9 @@ export class FazBsNavItem extends FazBsElementItem {
         return (this.parent() as FazBsNavItem).root;
     }
 
-    get navItemItems() {
-        return this.items().filter(item => {
-            return item instanceof FazBsNavItem;
+    get navItemChildren() {
+        return this.fazChildren().filter(child => {
+            return child instanceof FazBsNavItem;
         })
     }
 
@@ -165,10 +165,10 @@ export class FazBsNavItem extends FazBsElementItem {
     }
 
     activate() {
-        this.parent()?.activeItems.forEach(item => {
-            if (item instanceof FazBsNavItem) {
-                (item as FazBsNavItem).deactivate();
-                this.previousItem = item;
+        this.parent()?.activeFazChildren.forEach(child => {
+            if (child instanceof FazBsNavItem) {
+                (child as FazBsNavItem).deactivate();
+                this.previousChild = child;
             }
         })
         this.setActive(true);
@@ -176,38 +176,38 @@ export class FazBsNavItem extends FazBsElementItem {
             this.root.current = this;
         }
         if (this.root?.hasTabs) {
-            this.root?.tabItems.forEach((item) => {
+            this.root?.tabChildren.forEach((tabChild) => {
                 const resolvedLink = this.resolveLink() as string;
-                if(item.id === resolvedLink.replace("#", "")){
-                    item.setActive(true);
+                if(tabChild.id === resolvedLink.replace("#", "")){
+                    tabChild.setActive(true);
                     return;
                 }
-                item.setActive(false);
+                tabChild.setActive(false);
             })
         }
     }
 
     deactivate() {
-        this.previousItem = null;
+        this.previousChild = null;
         this.setActive(false);
         if (this.isDropdown) {
-            this.activeItems.forEach(activeItem => {
-                if (activeItem instanceof FazBsNavItem) {
-                    const item = activeItem as FazBsNavItem;
-                    item.deactivate();
+            this.activeFazChildren.forEach(activeChild => {
+                if (activeChild instanceof FazBsNavItem) {
+                    const child = activeChild as FazBsNavItem;
+                    child.deactivate();
                 }
             })
         }
     }
 
     disable() {
-        if (this.previousItem != null) {
-            this.previousItem.activate();
+        if (this.previousChild != null) {
+            this.previousChild.activate();
         }
         this.setDisabled(true);
     }
 
-    itemClick(item: FazBsNavItem, event: Event) {
+    onClick(item: FazBsNavItem, event: Event) {
         if (item.linkIsVoid) {
             event.preventDefault();
         }
@@ -224,7 +224,7 @@ export class FazBsNavItem extends FazBsElementItem {
     renderItem() {
         this.navItemLink = <a class={this.linkClassNames}
             id={`nav_item_link${this.id}`} role={this.roleType}
-            on:click={[this.itemClick, this]} href={this.resolveLink()}
+            on:click={[this.onClick, this]} href={this.resolveLink()}
             aria-expanded={this.ariaExpandedValue ? "true" : undefined}
             data-bs-toggle={this.dataBsToggleValue ? "true" : undefined}
         >{this.content()}</a>;

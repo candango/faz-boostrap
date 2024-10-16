@@ -62,7 +62,7 @@ export class FazBsBreadcrumbItem extends FazBsElementItem {
         if (parent === undefined) {
             return false;
         }
-        return parent?.items()[parent?.items()?.length-1] === this;
+        return parent?.fazChildren()[parent?.fazChildren()?.length-1] === this;
     }
 
     private ariaCurrentValue(): "page"|undefined {
