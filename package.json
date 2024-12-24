@@ -47,7 +47,7 @@
         "@codemirror/view": "6.26.3",
         "@types/lodash": "4.17.7",
         "@types/node": "22.10.2",
-        "esbuild": "0.24.0",
+        "esbuild": "0.24.2",
         "esbuild-plugin-copy": "2.1.1",
         "esbuild-plugin-solid": "0.6.0",
         "prettier": "3.4.2",
