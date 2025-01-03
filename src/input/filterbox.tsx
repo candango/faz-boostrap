@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { FazBsElementItem } from "../bs-item";
-import { Accessor, createSignal, Setter } from "solid-js";
+import { Accessor, createEffect, createSignal, Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
@@ -48,13 +48,12 @@ export class FazBsInputFilterbox extends FazBsElementItem {
     public setFiltering: Setter<boolean>;
 
 
-    public filterCallback: Accessor<FilterCallback | string | undefined>;
-    public setFilterCallback: Setter<FilterCallback | string | undefined>;
-
+    public filterCallback: InitCallback | string | undefined = undefined;
     public initCallback: InitCallback | string | undefined = undefined;
 
     private container: JSX.Element;
-    private input: JSX.Element;
+    private inputName: JSX.Element;
+    private inputValue: JSX.Element;
 
     private prefixId: string = "faz-bs-input-filterbox";
     private buffer: string = "";
@@ -76,15 +75,13 @@ export class FazBsInputFilterbox extends FazBsElementItem {
         [this.displayFilter, this.setDisplayFilter] = createSignal<boolean>(false);
         [this.filtering, this.setFiltering] = createSignal<boolean>(false);
 
-        [this.filterCallback, this.setFilterCallback] = createSignal<FilterCallback | string | undefined>(undefined);
-
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "autocomplete":
                     this.setAutocomplete(attribute.value.toLowerCase())
                     break
                 case "filtercallback":
-                    this.setFilterCallback(attribute.value);
+                    this.filterCallback = attribute.value;
                     break
                 case "innitcallback":
                     this.initCallback = attribute.value;
@@ -116,6 +113,10 @@ export class FazBsInputFilterbox extends FazBsElementItem {
 
     private get inputId(): string {
         return `${this.prefixId}-${this.id}`;
+    }
+
+    private get inputValueId(): string {
+        return `${this.prefixId}-value-${this.id}`;
     }
 
     private get listContainer() {
@@ -152,8 +153,8 @@ export class FazBsInputFilterbox extends FazBsElementItem {
     }
 
     get filteredItems(): FilterableItem[] {
-        if(this.filterCallback() !== undefined) {
-            (this.filterCallback() as FilterCallback)();
+        if(this.filterCallback !== undefined) {
+            (this.filterCallback as FilterCallback)();
         }
         return this.defaultFilterCallback();
     }
@@ -171,13 +172,13 @@ export class FazBsInputFilterbox extends FazBsElementItem {
     }
 
     doFilter(_: Event): void {
-        const input = (this.input as HTMLInputElement);
+        const inputName = (this.inputName as HTMLInputElement);
         this.verifySelectedValue()
         this.setFiltering(true);
         this.setDisplayFilter(false);
         this.overListGroup = true;
         this.inputHasFocus = true;
-        this.buffer = input.value;
+        this.buffer = inputName.value;
         this.clearFilterTimeout();
         if(this.buffer !== "") {
             this.filterTimeoutId = setTimeout(
@@ -210,10 +211,10 @@ export class FazBsInputFilterbox extends FazBsElementItem {
     }
 
     verifySelectedValue() {
-        const input = (this.input as HTMLInputElement);
-        if(this.selectedName() !== "" && input.value !== this.selectedName()) {
-            this.setValue(input.value);
-        }
+        // const input = (this.input as HTMLInputElement);
+        // if(this.selectedName() !== "" && input.value !== this.selectedName()) {
+        //     this.setValue(input.value);
+        // }
     }
 
     hasFilterableItems() {
@@ -248,23 +249,11 @@ export class FazBsInputFilterbox extends FazBsElementItem {
     selectOption(e: Event) {
         let option = e.target as HTMLElement;
         this.setSelectedName(option.getAttribute("item-name") as string);
-        this.setValue(option.getAttribute("item-name") as string);
-        (this.input as HTMLInputElement).value = this.selectedName();
+        this.setValue(option.getAttribute("item-value") as string);
+        (this.inputName as HTMLInputElement).value = this.selectedName();
+        (this.inputName as HTMLInputElement).value = this.selectedName();
         this.overListGroup = false;
         this.clearFilter();
-    }
-
-    get filterContainer(): JSX.Element {
-        return <div id={this.listContainer}
-                    class="filterbox-list-container"
-                    onMouseOver={this.beOverListGroup}
-                    onMouseOut={this.leaveListGroup}
-        >
-            <div class="list-group">
-                {this.uncategorizedResults}
-                {this.categorizedResults}
-            </div>
-        </div>
     }
  
     categorizedResultItems(category: string): JSX.Element[] {
@@ -304,40 +293,85 @@ export class FazBsInputFilterbox extends FazBsElementItem {
         });
     }
 
-    renderInput(): JSX.Element {
-        this.input = <input id={this.inputId} type="text" value={this.value()}
+    renderFilterContainer(): JSX.Element {
+        if (this.displayFilter()) {
+            return <div id={this.listContainer}
+                        class="filterbox-list-container"
+                        onMouseOver={this.beOverListGroup}
+                        onMouseOut={this.leaveListGroup}
+            >
+                <div class="list-group">
+                    {this.uncategorizedResults}
+                    {this.categorizedResults}
+                </div>
+            </div>
+        }
+    }
+
+    renderFilteringMessage(): JSX.Element {
+        if (this.filtering()) {
+            return <div style={{"margin-top": "5px", width: "100%"}}>
+                <div class="list-group">
+                    <a href="#"
+                       class="list-group-item list-group-item-action"
+                       aria-current="true">Searching ...</a>
+                </div>
+            </div>;
+        }
+    }
+
+    renderInputName(): JSX.Element {
+        this.inputName = <input id={this.inputId} type="text"
             class="form-control"
             onKeyUp={this.doFilter}
             onFocus={this.doFilter}
             onBlur={this.clearFilter}
             placeholder={this.label()}
             autocomplete={this.autocomplete()} />;
-        return this.input;
+        return this.inputName;
+    }
+
+    renderInputValue(): JSX.Element {
+        this.inputValue = <input id={this.inputValueId} type="hidden" value={this.value()}
+            class="form-control"
+            onKeyUp={this.doFilter}
+            onFocus={this.doFilter}
+            onBlur={this.clearFilter}
+            placeholder={this.label()}
+            autocomplete={this.autocomplete()} />;
+        return this.inputValue;
     }
 
     show() {
         this.container = <div id={this.containerId}>
-            {this.renderInput()}
+            {this.renderInputName()}
+            {this.renderInputValue()}
+            {this.renderFilteringMessage()}
+            {this.renderFilterContainer()}
         </div>;
         render(() => this.container, this);
     }
 
     afterShow() {
+        createEffect(() => {
+            const value = this.value();
+            const inputName = this.inputName as HTMLInputElement; 
+            if (value != inputName.value) {
+                inputName.value = this.value(); 
+            }
+        });
         super.afterShow();
-        const _this = this;
-        const filterCallback = this.filterCallback();
         if(typeof this.initCallback === "string") {
-            this.initCallback = eval(this.initCallback);
+            // Avoiding calling eval directly
+            // See: https://esbuild.github.io/content-types/#direct-eval
+            this.initCallback = (0, eval)(this.initCallback);
         }
-        // if(filterCallback) {
-        //     if(typeof filterCallback === "string") {
-        //         this.setFilterCallback(eval(filterCallback as string));
-        //     }
-        // }
-        // console.log(this);
-        // console.log(initCallback);
+        if(this.filterCallback) {
+            if(typeof this.filterCallback === "string") {
+                this.filterCallback = (0, eval)(this.filterCallback);
+            }
+        }
         (this.initCallback as InitCallback)(this);
-        // (this.initCallback() as InitCallback)(_this);
     }
 }
 
