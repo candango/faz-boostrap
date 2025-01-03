@@ -22,7 +22,7 @@ export declare class FazBsNavItem extends FazBsElementItem {
     private navItemLi;
     private navItemLink;
     private navItemUl;
-    previousItem: FazBsNavItem | null;
+    previousChild: FazBsNavItem | null;
     constructor();
     get contentChild(): ChildNode;
     get isRoot(): boolean;
@@ -33,14 +33,14 @@ export declare class FazBsNavItem extends FazBsElementItem {
     get dropdownClassNames(): string;
     get roleType(): "button" | "tab" | undefined;
     get root(): FazBsNav | undefined;
-    get navItemItems(): FazBsNavItem[];
+    get navItemChildren(): FazBsNavItem[];
     get ariaExpandedValue(): Accessor<boolean> | undefined;
     get dataBsToggleValue(): "dropdown" | undefined;
     addChild<T extends Node>(node: T): T;
     activate(): void;
     deactivate(): void;
     disable(): void;
-    itemClick(item: FazBsNavItem, event: Event): void;
+    onClick(item: FazBsNavItem, event: Event): void;
     renderDropdown(): JSX.Element;
     renderItem(): JSX.Element;
     show(): void;

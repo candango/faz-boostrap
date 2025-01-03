@@ -224,7 +224,7 @@ export class FazBsNavItem extends FazBsElementItem {
     renderItem() {
         this.navItemLink = <a class={this.linkClassNames}
             id={`nav_item_link${this.id}`} role={this.roleType}
-            on:click={[this.onClick, this]} href={this.resolveLink()}
+            onclick={[this.onClick, this]} href={this.resolveLink()}
             aria-expanded={this.ariaExpandedValue ? "true" : undefined}
             data-bs-toggle={this.dataBsToggleValue ? "true" : undefined}
         >{this.content()}</a>;

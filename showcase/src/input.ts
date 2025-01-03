@@ -13,12 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazElementItem } from "faz/src";
-import { JSX } from "solid-js/jsx-runtime";
-export declare class FazBsNavbarBrand extends FazElementItem {
-    private brand;
-    get classNames(): string;
-    renderBrand(): JSX.Element;
-    show(): void;
-}
-//# sourceMappingURL=navbar-brand.d.ts.map
+
+import "../../src/breadcrumb/breadcrumb";

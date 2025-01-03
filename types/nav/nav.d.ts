@@ -43,13 +43,13 @@ export declare class FazBsNav extends FazBsElementItem {
     get insideNavbarCollapse(): boolean;
     get insideNavbar(): boolean;
     get hasTabs(): boolean;
-    get navItemItems(): FazBsNavItem[];
-    get navItemItemsActive(): import("faz/src/item").FazElementItem[];
+    get navItemChildren(): FazBsNavItem[];
+    get navItemChildrenActive(): import("faz/src/item").FazElementItem[];
     get onEdge(): boolean;
     get outerContainerId(): string;
     get outerContainerClassNames(): string;
     get tabClassNames(): string;
-    get tabItems(): FazBsNavTab[];
+    get tabChildren(): FazBsNavTab[];
     addChild<T extends Node>(node: T): T;
     beOverMe(fazNav: FazBsNav, _: Event): void;
     leaveMe(fazNav: FazBsNav, _: Event): void;
