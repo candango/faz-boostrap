@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import "../../src/breadcrumb/breadcrumb";
+import { FazBsAlert } from "../../src/alert/alert";
 import { FazFormElement } from "faz/src";
 import { JSX } from "solid-js";
 import { render } from "solid-js/web";
@@ -24,6 +24,7 @@ import axios from "axios";
 
 export class FormExample extends FazFormElement {
 
+    private alert: FazBsAlert | undefined;
     private form: JSX.Element;
     private email: JSX.Element;
     private description: JSX.Element;
@@ -32,28 +33,27 @@ export class FormExample extends FazFormElement {
     constructor(){
         super();
         this.server.autoRespond = true;
-        const _this = this;
-        this.server.respondWith("POST", "/sometest", function(xhr: FakeXMLHttpRequest) {
-            _this.clearErrors();
+        this.server.respondWith("POST", "/sometest", (xhr: FakeXMLHttpRequest) => {
+            this.clearErrors();
             const data = JSON.parse(xhr.requestBody) as unknown as { [key: string]: any };
             if (data.email === "") {
-                _this.pushError("email", "Missing email");
+                this.pushError("email", "Missing email");
             }
             if (data.description === "") {
-                _this.pushError("description", "Missing description");
+                this.pushError("description", "Missing description");
             }
-            if (_this.hasErrors()){
+            if (this.hasErrors()){
                 xhr.respond(
                     400,
                     { "Content-Type": "application/json" },
-                    JSON.stringify({ "errors": _this.errors()}),
+                    JSON.stringify({ "errors": this.errors()})
                 );
                 return;
             }
             xhr.respond(
                 200,
                 { "Content-Type": "application/json" },
-                '{"id":1}',
+                JSON.stringify({ "message": "Data saved."})
             );
         });
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -75,12 +75,16 @@ export class FormExample extends FazFormElement {
         const description = this.description as HTMLElement;
         email.classList.remove("is-invalid");
         description.classList.remove("is-invalid");
+        this.alert?.setExtraClasses("invisible");
         axios({
             method: this.method(),
             url: "/sometest",
             data: data
         }).then(response => {
-            console.log(response);
+            if (this.alert) {
+                this.alert.setExtraClasses("text-center");
+                this.alert.setContent(response.data.message);
+            }
         }).catch(error => {
             this.setErrors(error.response.data.errors);
             if (this.hasErrorsFor("email")) {
@@ -100,6 +104,8 @@ export class FormExample extends FazFormElement {
     }
 
     renderTabs() {
+        this.alert = <faz-bs-alert ></faz-bs-alert>;
+        this.alert.setExtraClasses("invisible");
         this.email = <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>;
         this.description = <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>;
         this.form = <form
@@ -116,8 +122,15 @@ export class FormExample extends FazFormElement {
                 {this.description}
                 <div class="invalid-feedback"></div>
             </div>
-            <button class="btn btn-primary" type="submit">Button</button>
-            </form>;
+            <div class="mb-3">
+                {this.filterbox}
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-2"><button class="btn btn-primary" type="submit">Button</button></div>
+                <div class="col-9">{this.alert}</div>
+            </div>
+        </form>;
     }
 
     show() {
@@ -127,4 +140,4 @@ export class FormExample extends FazFormElement {
     }
 }
 
-customElements.define("faz-form-example", FormExample);
+customElements.define("form-example", FormExample);

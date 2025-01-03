@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  */
 
 import { FazBsNav } from "./nav";
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { Accessor, createSignal, JSX, Setter } from "solid-js";
 import { MountableElement, render } from "solid-js/web";
 
 
-export class FazBsNavItem extends FazBsElementItem {
+export class FazBsNavItem extends FazBsElement {
 
 
     public linkClasses: Accessor<string>;

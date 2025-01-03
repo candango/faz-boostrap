@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { FazBsGridHead } from "./grid-head";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
 
-export class FazBsGridRow extends FazBsElementItem {
+export class FazBsGridRow extends FazBsElement {
 
     private rowItem: JSX.Element;
 

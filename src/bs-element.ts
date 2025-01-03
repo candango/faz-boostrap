@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz/src";
+import { FazElement } from "faz/src";
 import { Accessor, createSignal, Setter } from "solid-js";
 
 
-export class FazBsElementItem extends FazElementItem {
+export class FazBsElement extends FazElement {
 
     public kind: Accessor<string|undefined>;
     public setKind: Setter<string|undefined>;

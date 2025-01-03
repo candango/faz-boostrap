@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { Accessor, createEffect, createSignal, Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
@@ -29,7 +29,7 @@ export type FilterCallback = () => FilterableItem[];
 
 export type InitCallback = (filterbox: FazBsInputFilterbox) => void;
 
-export class FazBsInputFilterbox extends FazBsElementItem {
+export class FazBsInputFilterbox extends FazBsElement {
 
     public autocomplete: Accessor<string>;
     public setAutocomplete: Setter<string>;

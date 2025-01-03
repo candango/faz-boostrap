@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { FazElementItem } from "faz/src";
+import { FazElement } from "faz/src";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
  
-export class FazBsNavbarBrand extends FazElementItem {
+export class FazBsNavbarBrand extends FazElement {
 
     private brand: JSX.Element;
 

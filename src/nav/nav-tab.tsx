@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
  */
 
 import { FazBsNav } from "./nav";
-import { FazBsElementItem } from "../bs-item";
-import { toBoolean } from "faz";
+import { FazBsElement } from "../bs-element";
+import { toBoolean } from "faz/src";
 import { Accessor, createSignal, Setter } from "solid-js";
 import { render } from "solid-js/web";
 import { JSX } from "solid-js/jsx-runtime";
 
 
-export class FazBsNavTab extends FazBsElementItem {
+export class FazBsNavTab extends FazBsElement {
 
     public fade: Accessor<boolean>;
     public setFade: Setter<boolean>;
