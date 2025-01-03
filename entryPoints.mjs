@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ export const entryPoints =  [
     { out: "js/index", in: "src/index.ts" },
     { out: "js/alert", in: "src/alert/alert.tsx" },
     { out: "js/badge", in: "src/badge/badge.tsx" },
+    { out: "js/input-filterbox", in: "src/input/filterbox.tsx" },
     { out: "js/breadcrumb", in: "src/breadcrumb/breadcrumb.tsx" },
     { out: "js/nav", in: "src/nav/nav.tsx" },
     { out: "js/navbar", in: "src/navbar/navbar.tsx" },

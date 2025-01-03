@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import { solidPlugin } from "esbuild-plugin-solid";
 entryPoints.push({ out: "alert-solid.bundle", in: "showcase/src/alert.ts" });
 entryPoints.push({ out: "badge-solid.bundle", in: "showcase/src/badge.ts" });
 entryPoints.push({ out: "breadcrumb-solid.bundle", in: "showcase/src/breadcrumb.ts" });
+entryPoints.push({ out: "form.bundle", in: "showcase/src/form.tsx" });
+entryPoints.push({ out: "input.bundle", in: "showcase/src/input.ts" });
 entryPoints.push({ out: "input-filterbox-solid.bundle", in: "showcase/src/input-filterbox.ts" });
 entryPoints.push({ out: "grid-solid.bundle", in: "showcase/src/grid.ts" });
 entryPoints.push({ out: "nav-solid.bundle", in: "showcase/src/nav.ts" });

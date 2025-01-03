@@ -178,7 +178,7 @@ export class FazBsNav extends FazBsElementItem {
         const children = this.fazChildren();
         return children.filter(child => {
             return child instanceof FazBsNavItem && child.active;
-        })
+        });
     }
 
     get onEdge() {
@@ -272,7 +272,7 @@ export class FazBsNav extends FazBsElementItem {
     show() {
         if (this.insideNavbarCollapse) {
             render(() => this.renderTabList(), this);
-            return
+            return;
         }
         this.outerContainer = <div
             id={this.outerContainerId}
