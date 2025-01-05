@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-export { FazBsElement } from "./bs-element";
-
-export { FazBsAlert } from "./alert/alert";
-
-export { FazBsBadge } from "./badge/badge";
-
-export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
-
-export { FazBsInputFilterbox } from "./input/filterbox";
-
-export {
-    FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab
-} from "./nav/nav";
-
-export {
-    FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse
-} from "./navbar/navbar";
+import "../../src/alert/alert";
+import "../../src/input/filterbox";
+import "./form-example";
