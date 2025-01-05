@@ -1,1 +1,1 @@
-{"version":3,"file":"navbar-toggler.d.ts","sourceRoot":"","sources":["../../src/navbar/navbar-toggler.tsx"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;GAcG;AAEH,OAAO,EAAE,gBAAgB,EAAE,MAAM,YAAY,CAAC;AAG9C,qBAAa,kBAAmB,SAAQ,gBAAgB;IAEpD,IAAI,UAAU,WAGb;IAED,IAAI;CAOP"}
+{"version":3,"file":"navbar-toggler.d.ts","sourceRoot":"","sources":["../../src/navbar/navbar-toggler.tsx"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;GAcG;AAEH,OAAO,EAAE,YAAY,EAAE,MAAM,eAAe,CAAC;AAG7C,qBAAa,kBAAmB,SAAQ,YAAY;IAEhD,IAAI,UAAU,WAGb;IAED,IAAI;CAOP"}

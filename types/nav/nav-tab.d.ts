@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { Accessor, Setter } from "solid-js";
-export declare class FazBsNavTab extends FazBsElementItem {
+export declare class FazBsNavTab extends FazBsElement {
     fade: Accessor<boolean>;
     setFade: Setter<boolean>;
     private navTabContainer;

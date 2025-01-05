@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { FazBsElementItem } from "./bs-item";
+export { FazBsElement } from "./bs-element";
 export { FazBsAlert } from "./alert/alert";
 export { FazBsBadge } from "./badge/badge";
 export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
+export { FazBsInputFilterbox } from "./input/filterbox";
 export { FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab } from "./nav/nav";
 export { FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse } from "./navbar/navbar";
 //# sourceMappingURL=index.d.ts.map

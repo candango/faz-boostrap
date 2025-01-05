@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazElementItem } from "faz/src";
+import { FazElement } from "faz/src";
 import { Accessor, Setter } from "solid-js";
-export declare class FazBsElementItem extends FazElementItem {
+export declare class FazBsElement extends FazElement {
     kind: Accessor<string | undefined>;
     setKind: Setter<string | undefined>;
     target: Accessor<string | undefined>;
@@ -24,4 +24,4 @@ export declare class FazBsElementItem extends FazElementItem {
     setTheme: Setter<string | undefined>;
     constructor();
 }
-//# sourceMappingURL=bs-item.d.ts.map
+//# sourceMappingURL=bs-element.d.ts.map

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { FazBsNavItem } from "./nav-item";
 import { FazBsNavTab } from "./nav-tab";
 import { Accessor, Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 type AriaAttributesRole = "alert" | "alertdialog" | "application" | "article" | "banner" | "button" | "cell" | "checkbox" | "columnheader" | "combobox" | "complementary" | "contentinfo" | "definition" | "dialog" | "directory" | "document" | "feed" | "figure" | "form" | "grid" | "gridcell" | "group" | "heading" | "img" | "link" | "list" | "listbox" | "listitem" | "log" | "main" | "marquee" | "math" | "menu" | "menubar" | "menuitem" | "menuitemcheckbox" | "menuitemradio" | "meter" | "navigation" | "none" | "note" | "option" | "presentation" | "progressbar" | "radio" | "radiogroup" | "region" | "row" | "rowgroup" | "rowheader" | "scrollbar" | "search" | "searchbox" | "separator" | "slider" | "spinbutton" | "status" | "switch" | "tab" | "table" | "tablist" | "tabpanel" | "term" | "textbox" | "timer" | "toolbar" | "tooltip" | "tree" | "treegrid" | "treeitem" | undefined;
-export declare class FazBsNav extends FazBsElementItem {
+export declare class FazBsNav extends FazBsElement {
     fill: Accessor<boolean>;
     setFill: Setter<boolean>;
     justify: Accessor<string>;
@@ -44,7 +44,7 @@ export declare class FazBsNav extends FazBsElementItem {
     get insideNavbar(): boolean;
     get hasTabs(): boolean;
     get navItemChildren(): FazBsNavItem[];
-    get navItemChildrenActive(): import("faz/src/item").FazElementItem[];
+    get navItemChildrenActive(): import("faz/src").FazElement[];
     get onEdge(): boolean;
     get outerContainerId(): string;
     get outerContainerClassNames(): string;

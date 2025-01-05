@@ -62,7 +62,7 @@
         "watch": "npm run watch:clean && node watch.mjs",
         "watch:clean": "rm -rf watch/dist",
         "esbuild": "node build.mjs",
-        "ts:build": "npm run ts:clean && npm run ts:declaration",
+        "ts:build": "npm run ts:clean && npm run ts:declaration && cp src/*.d.ts types",
         "ts:declaration": "tsc -p tsconfig.types.json -d --declarationDir types --emitDeclarationOnly && rm -rf tsconfig.types.tsbuildinfo",
         "ts:clean": "rm -rf tsconfig.tsbuildinfo types/*",
         "build": "npm run build:clean && npm run lessc && npm run esbuild && npm run ts:build",

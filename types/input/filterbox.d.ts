@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { Accessor, Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 export declare class FilterableItem {
     name: string;
-    value: string;
+    value: any;
     category?: string | undefined;
 }
-export type FilterCallback = () => FilterableItem[];
+export type FilterCallback = (query: string) => FilterableItem[];
 export type InitCallback = (filterbox: FazBsInputFilterbox) => void;
-export declare class FazBsInputFilterbox extends FazBsElementItem {
+export declare class FazBsInputFilterbox extends FazBsElement {
     autocomplete: Accessor<string>;
     setAutocomplete: Setter<string>;
     items: Accessor<FilterableItem[]>;
@@ -38,7 +38,7 @@ export declare class FazBsInputFilterbox extends FazBsElementItem {
     setDisplayFilter: Setter<boolean>;
     filtering: Accessor<boolean>;
     setFiltering: Setter<boolean>;
-    filterCallback: InitCallback | string | undefined;
+    filterCallback: FilterCallback | string | undefined;
     initCallback: InitCallback | string | undefined;
     private container;
     private inputName;
@@ -56,11 +56,11 @@ export declare class FazBsInputFilterbox extends FazBsElementItem {
     private get inputValueId();
     private get listContainer();
     get classNames(): string;
-    defaultFilterCallback(): FilterableItem[];
-    get categories(): string[];
+    defaultFilterCallback(query: string): FilterableItem[];
+    getCategories(filteredItems: FilterableItem[]): string[];
     get filteredItems(): FilterableItem[];
-    get filteredItemsUncategorized(): FilterableItem[];
-    filteredItemsByCategory(category: string): FilterableItem[];
+    filterUncategorizedItems(filteredItems: FilterableItem[]): FilterableItem[];
+    filteredItemsByCategory(category: string, filteredItems: FilterableItem[]): FilterableItem[];
     doFilter(_: Event): void;
     showFilter(): void;
     clearFilter(): void;
@@ -72,9 +72,10 @@ export declare class FazBsInputFilterbox extends FazBsElementItem {
     activateOption(e: Event): void;
     deactivateOption(e: Event): void;
     selectOption(e: Event): void;
-    categorizedResultItems(category: string): JSX.Element[];
-    get uncategorizedResults(): JSX.Element[];
-    get categorizedResults(): JSX.Element[];
+    filterCategorizedResultItems(category: string, filteredItems: FilterableItem[]): JSX.Element[];
+    get results(): JSX.Element;
+    renderUncategorizedResults(filteredItems: FilterableItem[]): JSX.Element[];
+    renderCategorizedResults(filteredItems: FilterableItem[]): JSX.Element[];
     renderFilterContainer(): JSX.Element;
     renderFilteringMessage(): JSX.Element;
     renderInputName(): JSX.Element;

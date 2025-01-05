@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import { FazBsNav } from "./nav";
-import { FazBsElementItem } from "../bs-item";
+import { FazBsElement } from "../bs-element";
 import { Accessor, JSX, Setter } from "solid-js";
-export declare class FazBsNavItem extends FazBsElementItem {
+export declare class FazBsNavItem extends FazBsElement {
     linkClasses: Accessor<string>;
     setLinkClasses: Setter<string>;
     private navItemLi;
