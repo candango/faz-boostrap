@@ -21,11 +21,11 @@ import { render } from "solid-js/web";
 
 export class FilterableItem {
     public name: string = "";
-    public value: string = "";
+    public value: any = "";
     public category?: string | undefined = undefined;
 }
 
-export type FilterCallback = () => FilterableItem[];
+export type FilterCallback = (query: string) => FilterableItem[];
 
 export type InitCallback = (filterbox: FazBsInputFilterbox) => void;
 
@@ -48,7 +48,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     public setFiltering: Setter<boolean>;
 
 
-    public filterCallback: InitCallback | string | undefined = undefined;
+    public filterCallback: FilterCallback | string | undefined = undefined;
     public initCallback: InitCallback | string | undefined = undefined;
 
     private container: JSX.Element;
@@ -57,7 +57,7 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     private prefixId: string = "faz-bs-input-filterbox";
     private buffer: string = "";
-    private filterDelay: number = 300;
+    private filterDelay: number = 500;
     private filterTimeoutId: NodeJS.Timeout | undefined = undefined;
     private beOverTimeoutId: NodeJS.Timeout | undefined = undefined;
     private overListGroup: boolean = false;
@@ -83,7 +83,7 @@ export class FazBsInputFilterbox extends FazBsElement {
                 case "filtercallback":
                     this.filterCallback = attribute.value;
                     break
-                case "innitcallback":
+                case "initcallback":
                     this.initCallback = attribute.value;
                     break
                 case "value":
@@ -95,7 +95,6 @@ export class FazBsInputFilterbox extends FazBsElement {
             }
         }
 
-        this.doFilter = this.doFilter.bind(this);
         this.clearFilter = this.clearFilter.bind(this);
         this.verifySelectedValue = this.verifySelectedValue.bind(this);
         
@@ -134,16 +133,14 @@ export class FazBsInputFilterbox extends FazBsElement {
         return classes.join(" ");
     }
 
-    defaultFilterCallback(): FilterableItem[] {
+    defaultFilterCallback(query: string): FilterableItem[] {
         return this.items().filter(
-            item => item.name.toLowerCase().indexOf(
-                this.buffer.toLowerCase()
-            ) !== -1
+            item => item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
         );
     }
 
-    get categories() {
-        return this.filteredItems.reduce<string[]>((categories, item)=> {
+    getCategories(filteredItems: FilterableItem[]) {
+        return filteredItems.reduce<string[]>((categories, item)=> {
             if(item.hasOwnProperty("category") &&
                 categories.indexOf(item.category as string) === -1) {
                 categories.push(item.category as string);
@@ -154,19 +151,19 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     get filteredItems(): FilterableItem[] {
         if(this.filterCallback !== undefined) {
-            (this.filterCallback as FilterCallback)();
+            return (this.filterCallback as FilterCallback)(this.buffer);
         }
-        return this.defaultFilterCallback();
+        return this.defaultFilterCallback(this.buffer);
     }
 
-    get filteredItemsUncategorized() {
-        return this.filteredItems.filter((item) => {
+    filterUncategorizedItems(filteredItems: FilterableItem[]) {
+        return filteredItems.filter((item) => {
             return !item.hasOwnProperty("category");
         });
     }
 
-    filteredItemsByCategory(category: string): FilterableItem[] {
-        return this.filteredItems.filter((item) => {
+    filteredItemsByCategory(category: string, filteredItems: FilterableItem[]): FilterableItem[] {
+        return filteredItems.filter((item) => {
             return item.hasOwnProperty("category") && item.category === category;
         });
     }
@@ -182,7 +179,7 @@ export class FazBsInputFilterbox extends FazBsElement {
         this.clearFilterTimeout();
         if(this.buffer !== "") {
             this.filterTimeoutId = setTimeout(
-                this.showFilter.bind(this), this.filterDelay
+                () => this.showFilter(), this.filterDelay
             );
             return;
         }
@@ -195,7 +192,6 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     clearFilter() {
-        console.log(this.overListGroup)
         this.inputHasFocus = false
         if (!this.overListGroup) {
             this.buffer = "";
@@ -211,10 +207,12 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     verifySelectedValue() {
-        // const input = (this.input as HTMLInputElement);
-        // if(this.selectedName() !== "" && input.value !== this.selectedName()) {
-        //     this.setValue(input.value);
-        // }
+        const inputName = (this.inputName as HTMLInputElement);
+        const inputValue = (this.inputValue as HTMLInputElement);
+        if(this.selectedName() !== "" && inputName.value !== this.selectedName()) {
+            this.setSelectedName(inputName.value);
+            this.setValue(inputValue.value);
+        }
     }
 
     hasFilterableItems() {
@@ -251,13 +249,12 @@ export class FazBsInputFilterbox extends FazBsElement {
         this.setSelectedName(option.getAttribute("item-name") as string);
         this.setValue(option.getAttribute("item-value") as string);
         (this.inputName as HTMLInputElement).value = this.selectedName();
-        (this.inputName as HTMLInputElement).value = this.selectedName();
         this.overListGroup = false;
         this.clearFilter();
     }
  
-    categorizedResultItems(category: string): JSX.Element[] {
-        return this.filteredItemsByCategory(category).map((item) => {
+    filterCategorizedResultItems(category: string, filteredItems: FilterableItem[]): JSX.Element[] {
+        return this.filteredItemsByCategory(category, filteredItems).map((item) => {
             return <a href="#"
                       class="list-group-item list-group-item-action"
                       id={item.value + "-" + item.name}
@@ -268,8 +265,16 @@ export class FazBsInputFilterbox extends FazBsElement {
         })
     }
 
-    get uncategorizedResults(): JSX.Element[] {
-        return this.filteredItemsUncategorized.map((item) => {
+    get results(): JSX.Element {
+        const filteredItems = this.filteredItems;
+        return <div class="list-group">
+            {this.renderUncategorizedResults(filteredItems)}
+            {this.renderCategorizedResults(filteredItems)}
+        </div>
+    }
+
+    renderUncategorizedResults(filteredItems: FilterableItem[]): JSX.Element[] {
+        return this.filterUncategorizedItems(filteredItems).map((item) => {
             return <a href="#"
                       class="list-group-item list-group-item-action"
                       id={item.value + "-" + item.name}
@@ -280,16 +285,16 @@ export class FazBsInputFilterbox extends FazBsElement {
         })
     }
 
-    get categorizedResults(): JSX.Element[] {
+    renderCategorizedResults(filteredItems: FilterableItem[]): JSX.Element[] {
         const className = [
             "list-group-item",
             "list-group-item-action",
             "list-group-item-dark"].join(" ");
-        return this.categories.map((category) => {
+        return this.getCategories(filteredItems).map((category) => {
             return <><a id={"category-" + category } href="#"
                    class={className}>
                     <h6 class="mb-1">{category}</h6></a>
-                {this.categorizedResultItems(category)}</>
+                {this.filterCategorizedResultItems(category, filteredItems)}</>
         });
     }
 
@@ -300,10 +305,7 @@ export class FazBsInputFilterbox extends FazBsElement {
                         onMouseOver={this.beOverListGroup}
                         onMouseOut={this.leaveListGroup}
             >
-                <div class="list-group">
-                    {this.uncategorizedResults}
-                    {this.categorizedResults}
-                </div>
+                {this.results}
             </div>
         }
     }
@@ -323,8 +325,8 @@ export class FazBsInputFilterbox extends FazBsElement {
     renderInputName(): JSX.Element {
         this.inputName = <input id={this.inputId} type="text"
             class="form-control"
-            onKeyUp={this.doFilter}
-            onFocus={this.doFilter}
+            onInput={this.doFilter.bind(this)}
+            onFocus={this.doFilter.bind(this)}
             onBlur={this.clearFilter}
             placeholder={this.label()}
             autocomplete={this.autocomplete()} />;
@@ -332,13 +334,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     renderInputValue(): JSX.Element {
-        this.inputValue = <input id={this.inputValueId} type="hidden" value={this.value()}
-            class="form-control"
-            onKeyUp={this.doFilter}
-            onFocus={this.doFilter}
-            onBlur={this.clearFilter}
-            placeholder={this.label()}
-            autocomplete={this.autocomplete()} />;
+        this.inputValue = <input id={this.inputValueId} type="hidden" value={this.value()} />;
         return this.inputValue;
     }
 
@@ -371,7 +367,9 @@ export class FazBsInputFilterbox extends FazBsElement {
                 this.filterCallback = (0, eval)(this.filterCallback);
             }
         }
-        (this.initCallback as InitCallback)(this);
+        if (this.initCallback) {
+            (this.initCallback as InitCallback)(this);
+        }
     }
 }
 
